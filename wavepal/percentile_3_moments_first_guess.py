@@ -26,7 +26,7 @@ def percentile_3_moments_first_guess(g,M):
 	try:
 		assert ierr==0
 	except AssertionError:
-		print "Error in percentile_3_moments_first_guess.py: convergence failed with fminbound"
+		print("Error in percentile_3_moments_first_guess.py: convergence failed with fminbound")
 		sys.exit(1)
 	delta=np.sqrt(polygamma(1,alpha))/d2
 	beta=np.exp(d1+polygamma(0,alpha)/delta)

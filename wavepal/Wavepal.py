@@ -25,32 +25,32 @@ class Wavepal:
 		try:
 			assert np.issubsctype(t,float)
 		except:
-			print "Error at input 't': must be a numpy array of 'float' type"
+			print("Error at input 't': must be a numpy array of 'float' type")
 			return
 		try:
 			assert np.issubsctype(mydata,float)
 		except:
-			print "Error at input 'mydata': must be a numpy array of 'float' type"
+			print("Error at input 'mydata': must be a numpy array of 'float' type")
 			return
 		try:
 			assert type(t_axis_label) is str
 		except AssertionError:
-			print "Error at input 't_axis_label': must be of 'str' type"
+			print("Error at input 't_axis_label': must be of 'str' type")
 			return
 		try:
 			assert type(mydata_axis_label) is str
 		except AssertionError:
-			print "Error at input 'mydata_axis_label': must be of 'str' type"
+			print("Error at input 'mydata_axis_label': must be of 'str' type")
 			return
 		try:
 			assert (t_units is None) or (type(t_units) is str)
 		except AssertionError:
-			print "Error at input 't_units': must be None or of 'str' type"
+			print("Error at input 't_units': must be None or of 'str' type")
 			return
 		try:
 			assert (mydata_units is None) or (type(mydata_units) is str)
 		except AssertionError:
-			print "Error at input 'mydata_units': must be None or of 'str' type"
+			print("Error at input 'mydata_units': must be None or of 'str' type")
 			return
 		# Initializes all the variables the user may have access when using Wavepal
 		self.t=t
@@ -208,13 +208,13 @@ class Wavepal:
 			This is part of WAVEPAL
 			(C) 2016 G. Lenoir"""
 		
-		from dt_min import dt_min
-		from distinct_ages import distinct_ages
+		from .dt_min import dt_min
+		from .distinct_ages import distinct_ages
 
 		# Check that the data are not Nan or Inf
 		for k in range(self.t.size):
 			if np.isnan(self.t[k]) or np.isnan(self.mydata[k]) or np.isinf(self.t[k]) or np.isinf(self.mydata[k]):
-				print "Error: Nan or Inf value at time/age ", self.t[k]
+				print("Error: Nan or Inf value at time/age ", self.t[k])
 				return
 		# Put the time axis in ascending order and check that all the times are distinct - Correction if needed
 		tind=np.argsort(self.t)
@@ -223,15 +223,15 @@ class Wavepal:
 		try:
 			assert dt_min(self.t)>0.0
 		except AssertionError:
-			print "WARNING: The times/ages of the time series must be distinct"
-			print "The program will automatically select the first occurrence of the time/age (and skip the others) where they are the same (times/ages are previously set in ascending order)"
+			print("WARNING: The times/ages of the time series must be distinct")
+			print("The program will automatically select the first occurrence of the time/age (and skip the others) where they are the same (times/ages are previously set in ascending order)")
 			self.t, self.mydata=distinct_ages(self.t,self.mydata)
 		# Check that we have at least 50 data points
 		self.nt=self.t.size
 		try:
 			assert self.nt>=50 # useful for the ACF of residual noise and its confidence levels (in CARMA pack)
 		except AssertionError:
-			print "Error: Not enough data points - please provide at least 50 data points"
+			print("Error: Not enough data points - please provide at least 50 data points")
 			return
 		self.run_check_data=True
 
@@ -263,28 +263,28 @@ class Wavepal:
 		try:
 			assert type(hist) is bool
 		except AssertionError:
-			print "Error at input 'hist': must be True or False"
+			print("Error at input 'hist': must be True or False")
 			return
 		try:
 			assert (type(nbins) is int) and (nbins>0)
 		except AssertionError:
-			print "Error at input 'nbins': must be of type 'int' and >0"
+			print("Error at input 'nbins': must be of type 'int' and >0")
 			return
 		try:
 			assert type(log_yaxis) is bool
 		except AssertionError:
-			print "Error at input 'log_yaxis': must be True or False"
+			print("Error at input 'log_yaxis': must be True or False")
 			return
 		try:
 			assert type(reverse_xaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_xaxis': must be True or False"
+			print("Error at input 'reverse_xaxis': must be True or False")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_check_data is True
 		except AssertionError:
-			print "Error: Must have run function 'check_data'"
+			print("Error: Must have run function 'check_data'")
 			return
 		self.dt=np.zeros(self.nt-1)
 		for k in range(1,self.nt):
@@ -335,39 +335,39 @@ class Wavepal:
 			(C) 2016 G. Lenoir"""
 	
 		import matplotlib.pyplot as plt
-		from detrending import detrending
+		from .detrending import detrending
 		
 		# check inputs
 		try:
 			assert (type(pol_degree) is int) and pol_degree>=-1
 		except AssertionError:
-			print "Error at input 'pol_degree': must be an integer >= -1"
+			print("Error at input 'pol_degree': must be an integer >= -1")
 			return
 		try:
 			assert (type(linewidth_data) is int) or (type(linewidth_data) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_data': must be an integer or float"
+			print("Error at input 'linewidth_data': must be an integer or float")
 			return
 		try:
 			assert (type(linewidth_trend) is int) or (type(linewidth_trend) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_trend': must be an integer or float"
+			print("Error at input 'linewidth_trend': must be an integer or float")
 			return
 		try:
 			assert type(reverse_xaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_xaxis': must be True or False"
+			print("Error at input 'reverse_xaxis': must be True or False")
 			return
 		try:
 			assert type(reverse_yaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_yaxis': must be True or False"
+			print("Error at input 'reverse_yaxis': must be True or False")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_check_data is True
 		except AssertionError:
-			print "Error: Must have run function 'check_data'"
+			print("Error: Must have run function 'check_data'")
 			return
 		trend=detrending(self.t,self.mydata,pol_degree)
 		# Figure with: raw data + trend
@@ -397,19 +397,19 @@ class Wavepal:
 			This is part of WAVEPAL
 			(C) 2016 G. Lenoir"""
 
-		from detrending import detrending
+		from .detrending import detrending
 		
 		# check inputs
 		try:
 			assert (type(pol_degree) is int) and pol_degree>=-1
 		except AssertionError:
-			print "Error at input 'pol_degree': must be an integer >= -1"
+			print("Error at input 'pol_degree': must be an integer >= -1")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_check_data is True
 		except AssertionError:
-			print "Error: Must have run function 'check_data'"
+			print("Error: Must have run function 'check_data'")
 			return
 		self.pol_degree=pol_degree
 		self.trend=detrending(self.t,self.mydata,self.pol_degree)
@@ -435,12 +435,12 @@ class Wavepal:
 		try:
 			assert self.run_check_data is True
 		except AssertionError:
-			print "Error: Must have run function 'check_data'"
+			print("Error: Must have run function 'check_data'")
 			return
 		try:
 			assert self.run_choose_trend_degree is True
 		except AssertionError:
-			print "Error: Must have run function 'choose_trend_degree'"
+			print("Error: Must have run function 'choose_trend_degree'")
 			return
 
 		tbis=self.t/self.t[-1]    # for numerical stability with the powers of the time, for the polynomial trend
@@ -499,89 +499,89 @@ class Wavepal:
 
 		import matplotlib.pyplot as plt
 		import carmcmc as cm
-		from decorrelation_length import decorrelation_length
+		from .decorrelation_length import decorrelation_length
 		from scipy.stats import gamma as gammadistr
 		from scipy.optimize import golden
-		from gen_car1 import gen_car1
-		from carma_matrix import carma_matrix
-		from carma_matrix_car1 import carma_matrix_car1
+		from .gen_car1 import gen_car1
+		from .carma_matrix import carma_matrix
+		from .carma_matrix_car1 import carma_matrix_car1
 		from tqdm import trange
 		
 		# check inputs
 		try:
 			assert ((type(p) is int) and (type(q) is int)) and (p>=0 and q>=0) and ((p>q) or (p==0 and q==0))
 		except AssertionError:
-			print "Error: The CARMA(p,q) process must have p and q integers such that: p>q>=0 or p=q=0"
+			print("Error: The CARMA(p,q) process must have p and q integers such that: p>q>=0 or p=q=0")
 			return
 		try:
 			assert (type(signif_level_type) is str) and ((signif_level_type.lower()=="a") or (signif_level_type.lower()=="n") or (signif_level_type.lower()=="an") or (signif_level_type.lower()=="na") or (signif_level_type.lower()==""))
 		except AssertionError:
-			print "Error at input 'signif_level_type': must be 'a', 'n', 'an', 'na' or ''"
+			print("Error at input 'signif_level_type': must be 'a', 'n', 'an', 'na' or ''")
 			return
 		signif_level_type=signif_level_type.lower()
 		try:
 			assert (type(min_autocorrelation) is float) and min_autocorrelation>=0. and min_autocorrelation<=1.
 		except AssertionError:
-			print "Error at input 'min_autocorrelation': must be of float type and between 0. and 1."
+			print("Error at input 'min_autocorrelation': must be of float type and between 0. and 1.")
 			return
 		try:
 			assert (nmcmc is None) or ((type(nmcmc) is int) and nmcmc>=10)
 		except AssertionError:
-			print "Error at input 'nmcmc': must be None, or of 'int' type and >=10"
+			print("Error at input 'nmcmc': must be None, or of 'int' type and >=10")
 			return
 		try:
 			assert (type(nmcmc_carma_max) is int) and nmcmc_carma_max>=100
 		except AssertionError:
-			print "Error at input 'nmcmc_carma_max': must be of 'int' type and >=100"
+			print("Error at input 'nmcmc_carma_max': must be of 'int' type and >=100")
 			return
 		try:
 			assert type(make_carma_fig) is bool
 		except AssertionError:
-			print "Error at input 'make_carma_fig': must be True or False"
+			print("Error at input 'make_carma_fig': must be True or False")
 			return
 		try:
 			assert type(path_to_figure_folder) is str
 		except AssertionError:
-			print "Error at input 'path_to_figure_folder': must be of type 'str'"
+			print("Error at input 'path_to_figure_folder': must be of type 'str'")
 			return
 		try:
 			assert (type(nbins) is int) and (nbins>0)
 		except AssertionError:
-			print "Error at input 'nbins': must be of type 'int' and >0"
+			print("Error at input 'nbins': must be of type 'int' and >0")
 			return
 		try:
 			assert (type(maxlag) is int) and maxlag>=0
 		except AssertionError:
-			print "Error at input 'maxlag': must be of 'int' type and >=0"
+			print("Error at input 'maxlag': must be of 'int' type and >=0")
 			return
 		try:
 			assert (type(golden_fact) is float) and golden_fact>1.
 		except AssertionError:
-			print "Error at input 'golden_fact': must be of 'float' type and >0."
+			print("Error at input 'golden_fact': must be of 'float' type and >0.")
 			return
 		try:
 			assert (dpi is None) or (type(dpi) is int) or (type(dpi) is float)
 		except AssertionError:
-			print "Error at input 'dpi': must be None or of 'float' or 'int' type"
+			print("Error at input 'dpi': must be None or of 'float' or 'int' type")
 			return
 		try:
 			assert type(reverse_xaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_xaxis': must be True or False"
+			print("Error at input 'reverse_xaxis': must be True or False")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_check_data is True
 		except AssertionError:
-			print "Error: Must have run function 'check_data'"
+			print("Error: Must have run function 'check_data'")
 			return
 		try:
 			assert self.run_choose_trend_degree is True
 		except AssertionError:
-			print "Error: Must have run function 'choose_trend_degree'"
+			print("Error: Must have run function 'choose_trend_degree'")
 			return
 		if p>1 and 'a' in signif_level_type:
-			print "WARNING: p>1 and 'a' in signif_level_type => ENSURE THAT THE MARGINAL POSTERIOR DISTRIBUTIONS OF ALL THE PARAMETERS ARE UNIMODAL. HAVE A LOOK AT THE HISTOGRAMS. Input parameter 'make_carma_fig' must be True."
+			print("WARNING: p>1 and 'a' in signif_level_type => ENSURE THAT THE MARGINAL POSTERIOR DISTRIBUTIONS OF ALL THE PARAMETERS ARE UNIMODAL. HAVE A LOOK AT THE HISTOGRAMS. Input parameter 'make_carma_fig' must be True.")
 		# Default value for variable 'nmcmc' if None
 		if nmcmc is None:
 			if 'n' in signif_level_type:
@@ -601,14 +601,14 @@ class Wavepal:
 			t_carma=self.t-tstart 	# translate the time axis to start at 0 - for use with carma pack
 			if p>=1:
 				# Run Carma_pack functions (p>=1 only)
-				print "****************************"
-				print "*        CARMA PACK        *"
-				print "****************************"
+				print("****************************")
+				print("*        CARMA PACK        *")
+				print("****************************")
 				yerr=np.zeros(self.nt)
 				# first round to estimate the number of independent samples
-				print ""
-				print "FIRST ROUND (to estimate the number of independent samples): with ", min(10000,nmcmc_carma_max), " samples"
-				print "**********************************************************************************************************"
+				print("")
+				print("FIRST ROUND (to estimate the number of independent samples): with ", min(10000,nmcmc_carma_max), " samples")
+				print("**********************************************************************************************************")
 				model=cm.CarmaModel(t_carma,y,yerr,p=p,q=q)
 				sample=model.run_mcmc(min(10000,nmcmc_carma_max))
 				if p==1:
@@ -635,17 +635,17 @@ class Wavepal:
 				try:
 					assert np.isnan(mylength)==False
 				except AssertionError:
-					print "Error: with decorrelation length: You must increase 'min_autocorrelation' input variable"
+					print("Error: with decorrelation length: You must increase 'min_autocorrelation' input variable")
 					return
-				print "Decorrelation length (in number of samples) - Estimation: ", mylength
+				print("Decorrelation length (in number of samples) - Estimation: ", mylength)
 				# second round
 				nmcmc_carma=nmcmc*mylength    # number of MCMC simulations in CARMA pack
 				if nmcmc_carma>nmcmc_carma_max:
 					nmcmc_carma=nmcmc_carma_max
 				if ('n' in signif_level_type) or ('a' in signif_level_type):
-					print ""
-					print "SECOND ROUND: generates ", nmcmc_carma, " samples"
-					print "***************************************"
+					print("")
+					print("SECOND ROUND: generates ", nmcmc_carma, " samples")
+					print("***************************************")
 				model=cm.CarmaModel(t_carma,y,yerr,p=p,q=q)
 				sample=model.run_mcmc(nmcmc_carma)
 				if make_carma_fig is True:
@@ -695,7 +695,7 @@ class Wavepal:
 				try:
 					assert np.isnan(mylength)==False
 				except AssertionError:
-					print "Error: with decorrelation length: You must increase 'min_autocorrelation' input variable or increase 'nmcmc_carma' input variable (and check that 'nmcmc_carma_max' is big enough)"
+					print("Error: with decorrelation length: You must increase 'min_autocorrelation' input variable or increase 'nmcmc_carma' input variable (and check that 'nmcmc_carma_max' is big enough)")
 					return
 				if make_carma_fig is True:
 					# full stochastic power spectrum
@@ -703,7 +703,7 @@ class Wavepal:
 					figname=path_to_figure_folder+"carma_spectrum.pdf"
 					sample.plot_power_spectrum(figname=figname,percentile=95,nsamples=nsamples,doShow=False,dpi=dpi)
 				# Skim off the distribution to have (approximately) independent samples
-				print "Decorrelation length (in number of samples): ", mylength
+				print("Decorrelation length (in number of samples): ", mylength)
 				self.mylength=mylength
 				sigwn=sample.get_samples('sigma')[0::mylength]
 				sigwn=sigwn[:,0]
@@ -714,9 +714,9 @@ class Wavepal:
 					alpha=sample.get_samples('ar_coefs')[0::mylength,:]
 					beta=sample.get_samples('ma_coefs')[0::mylength,:]
 			else:   # white noise
-				print "***************************************************"
-				print "*        WHITE NOISE BACKGROUND ESTIMATION        *"
-				print "***************************************************"
+				print("***************************************************")
+				print("*        WHITE NOISE BACKGROUND ESTIMATION        *")
+				print("***************************************************")
 				var_data=np.var(y)
 				alpha_gampdf=float(self.nt+3)/2.0
 				self.beta_gam=2.0/var_data/float(self.nt)
@@ -727,9 +727,9 @@ class Wavepal:
 				var_wn_unique=1.0/golden(myfun_wn,brack=mybrack)    # "golden" finds the minimum
 				self.sigwn_unique=np.sqrt(var_wn_unique)
 				if 'a' in signif_level_type:
-					print "White noise variance at the max. of the Posterior pdf:"
-					print "---------------------------------------------------------"
-					print var_wn_unique
+					print("White noise variance at the max. of the Posterior pdf:")
+					print("---------------------------------------------------------")
+					print(var_wn_unique)
 				if make_carma_fig is True:
 					# Posterior distribution for the white noise variance
 					myxx=np.arange((1.0/var_wn_unique)/10.0,(1.0/var_wn_unique)*10.0,(1.0/var_wn_unique)/100.0)
@@ -784,17 +784,17 @@ class Wavepal:
 					plt.close()
 		# Build CARMA matrix - analytical and/or MCMC
 		if ('a' in signif_level_type) and ('n' in signif_level_type):
-			print "*******************************************************************************"
-			print "*        BUILD CARMA MATRIX K AND THE CARMA MATRIX WITH MCMC SAMPLES		     *"
-			print "*******************************************************************************"
+			print("*******************************************************************************")
+			print("*        BUILD CARMA MATRIX K AND THE CARMA MATRIX WITH MCMC SAMPLES		     *")
+			print("*******************************************************************************")
 		elif ('a' in signif_level_type):
-			print "**************************************"
-			print "*        BUILD CARMA MATRIX K        *"
-			print "**************************************"
+			print("**************************************")
+			print("*        BUILD CARMA MATRIX K        *")
+			print("**************************************")
 		elif ('n' in signif_level_type):
-			print "*********************************************************"
-			print "*        BUILD THE CARMA MATRIX WITH MCMC SAMPLES       *"
-			print "*********************************************************"
+			print("*********************************************************")
+			print("*        BUILD THE CARMA MATRIX WITH MCMC SAMPLES       *")
+			print("*********************************************************")
 		if ('a' in signif_level_type) or ('n' in signif_level_type):
 			if self.p==0:
 				if 'a' in signif_level_type:
@@ -819,25 +819,25 @@ class Wavepal:
 					self.myn=np.zeros((self.nt,self.nmcmc))
 				if self.p==1: # generate CAR(1) processes for MCMC and the matrix with unique params for the analytical case
 					if 'n' in signif_level_type:
-						print "Generation of ", self.nmcmc, " CAR-1 samples in order to estimate the confidence levels"
+						print("Generation of ", self.nmcmc, " CAR-1 samples in order to estimate the confidence levels")
 						for o in trange(mult_sample):
-							ofact=range(o*sample_size,(o+1)*sample_size)
+							ofact=list(range(o*sample_size,(o+1)*sample_size))
 							self.myn[:,ofact]=gen_car1(self.t,alpha,sigwn)
 					if 'a' in signif_level_type:
-						print "Computing the median parameters of the CAR-1 process from ", sigwn.size, " MCMC samples."
+						print("Computing the median parameters of the CAR-1 process from ", sigwn.size, " MCMC samples.")
 						medianalpha=np.median(alpha)
 						mediansigwn=np.median(sigwn)
 						self.ARMA_mat_unique=carma_matrix_car1(self.t,medianalpha,mediansigwn)
-						print "Median parameters:"
-						print "--------------------"
-						print "alpha: ", medianalpha
-						print "std white noise: ", mediansigwn
+						print("Median parameters:")
+						print("--------------------")
+						print("alpha: ", medianalpha)
+						print("std white noise: ", mediansigwn)
 						self.sigwn_unique=mediansigwn
 						self.alpha_unique=medianalpha*np.ones(1)
 				elif self.p>1: # generate CARMA(p,q) processes with p>1, for MCMC and the matrix with unique params for the analytical case
 					varwn=sigwn**2
 					if 'n' in signif_level_type:
-						print "Generation of ", self.nmcmc, " CARMA(",self.p,",",self.q,") samples in order to estimate the confidence levels"
+						print("Generation of ", self.nmcmc, " CARMA(",self.p,",",self.q,") samples in order to estimate the confidence levels")
 						if self.q==0:
 							for o in trange(mult_sample, desc='1st loop'):
 								ofact=o*sample_size
@@ -851,16 +851,16 @@ class Wavepal:
 									myroots=np.roots(alpha[k,:])
 									self.myn[:,ofact+k]=cm.carma_process(self.t,varwn[k],myroots,beta[k,:])
 					if 'a' in signif_level_type:
-						print "Computing the median parameters of the CARMA(",self.p,",",self.q,") process from ", sigwn.size, " MCMC samples."
+						print("Computing the median parameters of the CARMA(",self.p,",",self.q,") process from ", sigwn.size, " MCMC samples.")
 						medianalpha=np.median(alpha,0)
 						medianbeta=np.median(beta,0)
 						medianvarwn=np.median(varwn)
 						carma_mat_unique=carma_matrix(self.t,self.p,self.q,medianalpha,medianbeta,medianvarwn)
-						print "Median parameters:"
-						print "--------------------"
-						print "alpha: ", medianalpha
-						print "beta: ", medianbeta
-						print "variance white noise: ", medianvarwn
+						print("Median parameters:")
+						print("--------------------")
+						print("alpha: ", medianalpha)
+						print("beta: ", medianbeta)
+						print("variance white noise: ", medianvarwn)
 						self.sigwn_unique=np.sqrt(medianvarwn)
 						self.alpha_unique=medianalpha
 						self.beta_unique=medianbeta
@@ -914,130 +914,130 @@ class Wavepal:
 			(C) 2016 G. Lenoir"""
 
 		import numpy.linalg as la
-		from dt_min import dt_min
+		from .dt_min import dt_min
 		from tqdm import trange
-		from freq_analysis_prelims import freq_analysis_prelims
-		from LS_WOSA import LS_WOSA
-		from LS_WOSA_and_Ampl import LS_WOSA_and_Ampl
+		from .freq_analysis_prelims import freq_analysis_prelims
+		from .LS_WOSA import LS_WOSA
+		from .LS_WOSA_and_Ampl import LS_WOSA_and_Ampl
 		from scipy.stats import f as fdistr
-		from percentile_n_moments import percentile_n_moments
-		from white_noise_mcmc import white_noise_mcmc
+		from .percentile_n_moments import percentile_n_moments
+		from .white_noise_mcmc import white_noise_mcmc
 		
 		# check inputs
 		try:
 			assert (freqmin is None) or ((type(freqmin) is float) and freqmin>0.)
 		except AssertionError:
-			print "Error at input 'freqmin': must be None or of 'float' type and >0."
+			print("Error at input 'freqmin': must be None or of 'float' type and >0.")
 			return
 		try:
 			assert (freqmax is None) or ((type(freqmax) is float) and freqmax>0.)
 		except AssertionError:
-			print "Error at input 'freqmax': must be None or of 'float' type and >0."
+			print("Error at input 'freqmax': must be None or of 'float' type and >0.")
 			return
 		if (freqmin is not None) and (freqmax is not None):
 			try:
 				assert freqmax>=freqmin
 			except AssertionError:
-				print "Error at input 'freqmin' and 'freqmax': must have freqmax>=freqmin"
+				print("Error at input 'freqmin' and 'freqmax': must have freqmax>=freqmin")
 				return
 		try:
 			assert (freqstep is None) or ((type(freqstep) is float) and freqstep>0.)
 		except AssertionError:
-			print "Error at input 'freqstep': must be None or of 'float' type and >0."
+			print("Error at input 'freqstep': must be None or of 'float' type and >0.")
 			return
 		try:
 			assert (dt_GCD is None) or ((type(dt_GCD) is float) and dt_GCD>0.)
 		except AssertionError:
-			print "Error at input 'dt_GCD': must be None or of 'float' type and >0."
+			print("Error at input 'dt_GCD': must be None or of 'float' type and >0.")
 			return
 		try:
 			assert type(freq_min_bound) is bool
 		except AssertionError:
-			print "Error at input 'freq_min_bound': must be True or False"
+			print("Error at input 'freq_min_bound': must be True or False")
 			return
 		try:
 			assert type(freq_max_bound) is bool
 		except AssertionError:
-			print "Error at input 'freq_max_bound': must be True or False"
+			print("Error at input 'freq_max_bound': must be True or False")
 			return
 		try:
 			assert (type(mywindow) is int) and (mywindow>=1)
 		except AssertionError:
-			print "Error at input 'mywindow': must be of 'int' type and >=1"
+			print("Error at input 'mywindow': must be of 'int' type and >=1")
 			return
 		try:
 			assert (D is None) or ((type(D) is float) and (D>0.))
 		except AssertionError:
-			print "Error at input 'D': must be None or of 'float' type and >0."
+			print("Error at input 'D': must be None or of 'float' type and >0.")
 			return
 		try:
 			assert (type(betafact) is float) and (betafact>=0.) and (betafact<1.)
 		except AssertionError:
-			print "Error at input 'betafact': must be of 'float' type and must take a value in [0.,1.["
+			print("Error at input 'betafact': must be of 'float' type and must take a value in [0.,1.[")
 			return
 		try:
 			assert (type(coverage) is float) and (coverage>=0.) and (coverage<100.)
 		except AssertionError:
-			print "Error at input 'coverage': must be of 'float' type and must take a value between 0. and 100."
+			print("Error at input 'coverage': must be of 'float' type and must take a value between 0. and 100.")
 			return
 		try:
 			assert (WOSA_segments is None) or ((type(WOSA_segments) is str) and WOSA_segments.lower()=="all") or ((type(WOSA_segments) is str) and WOSA_segments.lower()=="max") or (type(WOSA_segments) is int and WOSA_segments>=0)
 		except AssertionError:
-			print "Error at input 'WOSA_segments': must be None, 'all', 'max' or an integer >0"
+			print("Error at input 'WOSA_segments': must be None, 'all', 'max' or an integer >0")
 			return
 		try:
 			assert (percentile is None) or np.issubsctype(percentile,float)
 		except:
-			print "Error at input 'percentile': must be None or a numpy array of 'float' type"
+			print("Error at input 'percentile': must be None or a numpy array of 'float' type")
 			return
 		try:
 			assert type(weighted_WOSA) is bool
 		except AssertionError:
-			print "Error at input 'weighted_WOSA': must be True or False"
+			print("Error at input 'weighted_WOSA': must be True or False")
 			return
 		try:
 			assert (type(n_moments) is int) and (n_moments>=2)
 		except AssertionError:
-			print "Error at input 'n_moments': must be of 'int' type and >=2"
+			print("Error at input 'n_moments': must be of 'int' type and >=2")
 			return
 		try:
 			assert (type(MaxFunEvals) is int) and (MaxFunEvals>=10)
 		except AssertionError:
-			print "Error at input 'MaxFunEvals': must be of 'int' type and >=10"
+			print("Error at input 'MaxFunEvals': must be of 'int' type and >=10")
 			return
 		try:
 			assert (type(algo_moments) is str) and ((algo_moments.lower()=="gamma-polynomial") or (algo_moments.lower()=="generalized-gamma-polynomial"))
 		except AssertionError:
-			print "Error at input 'algo_moments': must be 'gamma-polynomial' or 'generalized-gamma-polynomial'"
+			print("Error at input 'algo_moments': must be 'gamma-polynomial' or 'generalized-gamma-polynomial'")
 			return
 		algo_moments=algo_moments.lower()
 		try:
 			assert type(computes_amplitude) is bool
 		except AssertionError:
-			print "Error at input 'computes_amplitude': must be True or False"
+			print("Error at input 'computes_amplitude': must be True or False")
 			return
 		# check that some functions were previously run
 		if ('a' in self.signif_level_type) or ('n' in self.signif_level_type):
 			try:
 				assert self.run_carma_params is True
 			except AssertionError:
-				print "Error: Must have run function 'carma_params'"
+				print("Error: Must have run function 'carma_params'")
 				return
 		else:
 			try:
 				assert self.run_check_data is True
 			except AssertionError:
-				print "Error: Must have run function 'check_data'"
+				print("Error: Must have run function 'check_data'")
 				return
 			try:
 				assert self.run_choose_trend_degree is True
 			except AssertionError:
-				print "Error: Must have run function 'choose_trend_degree'"
+				print("Error: Must have run function 'choose_trend_degree'")
 				return
 		try:
 			assert self.run_trend_vectors is True
 		except AssertionError:
-			print "Error: Must have run function 'trend_vectors'"
+			print("Error: Must have run function 'trend_vectors'")
 			return
 		# Set Default values for input arguments
 		if dt_GCD is None:
@@ -1062,7 +1062,7 @@ class Wavepal:
 		try:
 			assert freq.size>5 # in order to be able to compute the convergence of the percentiles at 6 frequencies
 		except AssertionError:
-			print "Error: Not enough frequency points - please provide at least 6 frequency points"
+			print("Error: Not enough frequency points - please provide at least 6 frequency points")
 			return
 		# Build the WOSA Lomb-Scargle components
 		self.freq,self.tau,self.myind_time,self.myind_freq,self.myind_Q,self.D,self.nsmooth_vec,self.nsmooth,weight_WOSA=freq_analysis_prelims(self.t,freq,D,betafact,mywindow,coverage,freq_min_bound,freq_max_bound,self.pol_degree,WOSA_segments,weighted_WOSA)
@@ -1098,7 +1098,7 @@ class Wavepal:
 				self.amplitude_cos=np.zeros(J)
 				self.amplitude_sin=np.zeros(J)
 		self.computes_amplitude=computes_amplitude
-		print "Main loop, over the frequencies:"
+		print("Main loop, over the frequencies:")
 		for k in trange(J):
 			if computes_amplitude is True:
 				Amplitude, M2=LS_WOSA_and_Ampl(self.t,self.mydata,self.freq[k],k,self.myprojvec,self.Vmat,self.D,self.tau,self.nsmooth,self.nsmooth_vec[k],self.myind_time,self.myind_freq,self.tapwindow,self.pol_degree,weight_WOSA)
@@ -1173,7 +1173,7 @@ class Wavepal:
 		# and all the moments are computed at 6 particular frequencies, in order to visualize the convergence
 		if 'a' in self.signif_level_type:
 			myind_freq_step=int(np.floor(float(J)/5.0))
-			myind_freq_full=range(0,J+1,myind_freq_step)
+			myind_freq_full=list(range(0,J+1,myind_freq_step))
 			myind_freq_full=myind_freq_full[0:6]
 			if myind_freq_full[5]==J:
 				myind_freq_full[5]=J-1
@@ -1199,34 +1199,34 @@ class Wavepal:
 		try:
 			assert type(freq_bounds) is list
 		except AssertionError:
-			print "Error at input 'freq_bounds': must be of type 'list'"
+			print("Error at input 'freq_bounds': must be of type 'list'")
 			return
 		for k in range(len(freq_bounds)):
 			try:
 				assert type(freq_bounds[k]) is tuple
 			except AssertionError:
-				print "Error at input 'freq_bounds': must be a list containing tuples"
+				print("Error at input 'freq_bounds': must be a list containing tuples")
 				return
 			try:
 				assert (type(freq_bounds[k][0]) is float) and (type(freq_bounds[k][1]) is float)
 			except:
-				print "Error at input 'freq_bounds': must be a list containing tuples, with each tuple containing 2 floats"
+				print("Error at input 'freq_bounds': must be a list containing tuples, with each tuple containing 2 floats")
 				return
 		# check that some functions were previously run
 		try:
 			assert self.run_freq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'freq_analysis'"
+			print("Error: Must have run function 'freq_analysis'")
 			return
 		try:
 			assert self.computes_amplitude is True
 		except AssertionError:
-			print "Error: In function 'freq_analysis', amplitude must have been computed"
+			print("Error: In function 'freq_analysis', amplitude must have been computed")
 			return
 		try:
 			assert (self.nsmooth==1 and self.myind_time[0,0]==0 and self.myind_time[0,1]==self.nt-1)
 		except AssertionError:
-			print "Error: In function 'freq_analysis', WOSA smoothing is not compatible with filtering"
+			print("Error: In function 'freq_analysis', WOSA smoothing is not compatible with filtering")
 			return
 
 		self.freq_filtered_signal=np.zeros((self.nt,len(freq_bounds)))
@@ -1237,7 +1237,7 @@ class Wavepal:
 			try:
 				assert ind_high>=ind_low
 			except AssertionError:
-				print "Error in 'freq_bounds' input parameters: must have frequency_high>=frequency_low"
+				print("Error in 'freq_bounds' input parameters: must have frequency_high>=frequency_low")
 				return
 			for k in range(ind_low,(ind_high+1)):
 				self.freq_filtered_signal[:,l]+=self.amplitude_cos[k]*np.cos(2.*np.pi*self.freq[k]*self.t)+self.amplitude_sin[k]*np.sin(2.*np.pi*self.freq[k]*self.t)
@@ -1275,28 +1275,28 @@ class Wavepal:
 		try:
 			assert (type(linewidth_data) is int) or (type(linewidth_data) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_data': must be an integer or float"
+			print("Error at input 'linewidth_data': must be an integer or float")
 			return
 		try:
 			assert (type(linewidth_segment) is int) or (type(linewidth_segment) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_segment': must be an integer or float"
+			print("Error at input 'linewidth_segment': must be an integer or float")
 			return
 		try:
 			assert type(reverse_xaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_xaxis': must be True or False"
+			print("Error at input 'reverse_xaxis': must be True or False")
 			return
 		try:
 			assert type(reverse_yaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_yaxis': must be True or False"
+			print("Error at input 'reverse_yaxis': must be True or False")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_freq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'freq_analysis'"
+			print("Error: Must have run function 'freq_analysis'")
 			return
 		mindata=np.amin(self.mydata)
 		maxdata=np.amax(self.mydata)
@@ -1357,19 +1357,19 @@ class Wavepal:
 		try:
 			assert (type(xaxis) is str) and ((xaxis.lower()=="frequency") or (xaxis.lower()=="period"))
 		except AssertionError:
-			print "Error at input 'xaxis': Must be 'frequency' or 'period'"
+			print("Error at input 'xaxis': Must be 'frequency' or 'period'")
 			return
 		xaxis=xaxis.lower()
 		try:
 			assert (type(linewidth) is int) or (type(linewidth) is float)
 		except AssertionError:
-			print "Error at input 'linewidth': must be an integer or float"
+			print("Error at input 'linewidth': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_freq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'freq_analysis'"
+			print("Error: Must have run function 'freq_analysis'")
 			return
 		if xaxis=="period":
 			mypow=-1
@@ -1417,29 +1417,29 @@ class Wavepal:
 		try:
 			assert (type(xaxis) is str) and ((xaxis.lower()=="frequency") or (xaxis.lower()=="period"))
 		except AssertionError:
-			print "Error at input 'xaxis': Must be 'frequency' or 'period'"
+			print("Error at input 'xaxis': Must be 'frequency' or 'period'")
 			return
 		xaxis=xaxis.lower()
 		try:
 			assert type(loglog) is bool
 		except AssertionError:
-			print "Error at input 'loglog': Must be True or False"
+			print("Error at input 'loglog': Must be True or False")
 			return
 		try:
 			assert (type(linewidth_per) is int) or (type(linewidth_per) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_per': must be an integer or float"
+			print("Error at input 'linewidth_per': must be an integer or float")
 			return
 		try:
 			assert (type(linewidth_cl) is int) or (type(linewidth_cl) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_cl': must be an integer or float"
+			print("Error at input 'linewidth_cl': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_freq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'freq_analysis'"
+			print("Error: Must have run function 'freq_analysis'")
 			return
 		if xaxis=="period":
 			mypow=-1
@@ -1509,34 +1509,34 @@ class Wavepal:
 		try:
 			assert (type(xaxis) is str) and ((xaxis.lower()=="frequency") or (xaxis.lower()=="period"))
 		except AssertionError:
-			print "Error at input 'xaxis': Must be 'frequency' or 'period'"
+			print("Error at input 'xaxis': Must be 'frequency' or 'period'")
 			return
 		xaxis=xaxis.lower()
 		try:
 			assert type(loglog) is bool
 		except AssertionError:
-			print "Error at input 'loglog': Must be True or False"
+			print("Error at input 'loglog': Must be True or False")
 			return
 		try:
 			assert (type(linewidth_per) is int) or (type(linewidth_per) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_per': must be an integer or float"
+			print("Error at input 'linewidth_per': must be an integer or float")
 			return
 		try:
 			assert (type(linewidth_cl) is int) or (type(linewidth_cl) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_cl': must be an integer or float"
+			print("Error at input 'linewidth_cl': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_freq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'freq_analysis'"
+			print("Error: Must have run function 'freq_analysis'")
 			return
 		try:
 			assert self.p==0 and self.q==0 and self.nsmooth==1 and self.tapwindow==2 and self.myind_time[0,0]==0 and self.myind_time[0,1]==self.nt-1
 		except AssertionError:
-			print "Error: plot_f_periodogram cannot be applied"
+			print("Error: plot_f_periodogram cannot be applied")
 			return
 		if xaxis=="period":
 			mypow=-1
@@ -1592,24 +1592,24 @@ class Wavepal:
 		try:
 			assert (type(display) is str) and ((display.lower()=="frequency") or (display.lower()=="period"))
 		except AssertionError:
-			print "Error at input 'display': Must be 'frequency' or 'period'"
+			print("Error at input 'display': Must be 'frequency' or 'period'")
 			return
 		display=display.lower()
 		try:
 			assert (type(linewidth) is int) or (type(linewidth) is float)
 		except AssertionError:
-			print "Error at input 'linewidth': must be an integer or float"
+			print("Error at input 'linewidth': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_freq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'freq_analysis'"
+			print("Error: Must have run function 'freq_analysis'")
 			return
 		try:
 			assert 'a' in self.signif_level_type
 		except AssertionError:
-			print "Error: plot_check_convergence_percentiles cannot be applied"
+			print("Error: plot_check_convergence_percentiles cannot be applied")
 			return
 		myfreq=self.periodogram_cl_anal_check_percentile[0]
 		mypercentile=self.periodogram_cl_anal_check_percentile[1]
@@ -1632,7 +1632,7 @@ class Wavepal:
 			box = aa.get_position()
 			aa.set_position([box.x0, box.y0, box.width * 0.8, box.height])
 			for k in range(self.percentile.size):
-				aa.plot(range(2,self.n_moments+1),mypercentile[l,:,k],label=str(self.percentile[k])+"%",linewidth=linewidth)
+				aa.plot(list(range(2,self.n_moments+1)),mypercentile[l,:,k],label=str(self.percentile[k])+"%",linewidth=linewidth)
 			if l==1:
 				aa.legend(fontsize=fontsize_legend,loc='upper left', bbox_to_anchor=(1, 1.3), fancybox=True)  # ncol=min(3,n_moments%3+n_moments/3)
 			if display=="frequency":
@@ -1678,29 +1678,29 @@ class Wavepal:
 		try:
 			assert (type(xaxis) is str) and ((xaxis.lower()=="frequency") or (xaxis.lower()=="period"))
 		except AssertionError:
-			print "Error at input 'xaxis': Must be 'frequency' or 'period'"
+			print("Error at input 'xaxis': Must be 'frequency' or 'period'")
 			return
 		xaxis=xaxis.lower()
 		try:
 			assert type(loglog) is bool
 		except AssertionError:
-			print "Error at input 'loglog': Must be True or False"
+			print("Error at input 'loglog': Must be True or False")
 			return
 		try:
 			assert (type(linewidth) is int) or (type(linewidth) is float)
 		except AssertionError:
-			print "Error at input 'linewidth': must be an integer or float"
+			print("Error at input 'linewidth': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_freq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'freq_analysis'"
+			print("Error: Must have run function 'freq_analysis'")
 			return
 		try:
 			assert ('a' in self.signif_level_type) or ('n' in self.signif_level_type)
 		except AssertionError:
-			print "Error: plot_pseudo_spectrum cannot be applied"
+			print("Error: plot_pseudo_spectrum cannot be applied")
 			return
 		if xaxis=="period":
 			mypow=-1
@@ -1753,29 +1753,29 @@ class Wavepal:
 		try:
 			assert (type(xaxis) is str) and ((xaxis.lower()=="frequency") or (xaxis.lower()=="period"))
 		except AssertionError:
-			print "Error at input 'xaxis': Must be 'frequency' or 'period'"
+			print("Error at input 'xaxis': Must be 'frequency' or 'period'")
 			return
 		xaxis=xaxis.lower()
 		try:
 			assert type(loglog) is bool
 		except AssertionError:
-			print "Error at input 'loglog': Must be True or False"
+			print("Error at input 'loglog': Must be True or False")
 			return
 		try:
 			assert (type(linewidth) is int) or (type(linewidth) is float)
 		except AssertionError:
-			print "Error at input 'linewidth': must be an integer or float"
+			print("Error at input 'linewidth': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_freq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'freq_analysis'"
+			print("Error: Must have run function 'freq_analysis'")
 			return
 		try:
 			assert ('a' in self.signif_level_type) and self.weighted_WOSA is False
 		except AssertionError:
-			print "Error: plot_variance_anal_background_noise cannot be applied"
+			print("Error: plot_variance_anal_background_noise cannot be applied")
 			return
 		if xaxis=="period":
 			mypow=-1
@@ -1822,34 +1822,34 @@ class Wavepal:
 		try:
 			assert (type(xaxis) is str) and ((xaxis.lower()=="frequency") or (xaxis.lower()=="period"))
 		except AssertionError:
-			print "Error at input 'xaxis': Must be 'frequency' or 'period'"
+			print("Error at input 'xaxis': Must be 'frequency' or 'period'")
 			return
 		xaxis=xaxis.lower()
 		try:
 			assert type(loglog) is bool
 		except AssertionError:
-			print "Error at input 'loglog': Must be True or False"
+			print("Error at input 'loglog': Must be True or False")
 			return
 		try:
 			assert type(plot_band_filtering) is bool
 		except AssertionError:
-			print "Error at input 'plot_band_filtering': Must be True or False"
+			print("Error at input 'plot_band_filtering': Must be True or False")
 			return
 		try:
 			assert (type(linewidth) is int) or (type(linewidth) is float)
 		except AssertionError:
-			print "Error at input 'linewidth': must be an integer or float"
+			print("Error at input 'linewidth': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_freq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'freq_analysis'"
+			print("Error: Must have run function 'freq_analysis'")
 			return
 		try:
 			assert self.computes_amplitude is True
 		except AssertionError:
-			print "Error: plot_amplitude cannot be applied"
+			print("Error: plot_amplitude cannot be applied")
 			return
 		if xaxis=="period":
 			mypow=-1
@@ -1872,7 +1872,7 @@ class Wavepal:
 				x2[1]=self.freq_filtered_signal_bounds[k,1]
 				plt.fill_betweenx(y,x1,x2,edgecolors=None,facecolor='black',alpha=0.5)
 		else:
-			print "WARNING: function 'freq_filtering' was not run => unable to draw the bands"
+			print("WARNING: function 'freq_filtering' was not run => unable to draw the bands")
 		if xaxis=="period":
 			plt.xlabel("Period"+self.t_label,fontsize=fontsize_axes)
 		elif xaxis=="frequency":
@@ -1910,29 +1910,29 @@ class Wavepal:
 		try:
 			assert (type(xaxis) is str) and ((xaxis.lower()=="frequency") or (xaxis.lower()=="period"))
 		except AssertionError:
-			print "Error at input 'xaxis': Must be 'frequency' or 'period'"
+			print("Error at input 'xaxis': Must be 'frequency' or 'period'")
 			return
 		xaxis=xaxis.lower()
 		try:
 			assert type(loglog) is bool
 		except AssertionError:
-			print "Error at input 'loglog': Must be True or False"
+			print("Error at input 'loglog': Must be True or False")
 			return
 		try:
 			assert (type(linewidth) is int) or (type(linewidth) is float)
 		except AssertionError:
-			print "Error at input 'linewidth': must be an integer or float"
+			print("Error at input 'linewidth': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_freq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'freq_analysis'"
+			print("Error: Must have run function 'freq_analysis'")
 			return
 		try:
 			assert self.computes_amplitude is True and self.weighted_WOSA is True
 		except AssertionError:
-			print "Error: plot_amplitude_vs_periodogram cannot be applied"
+			print("Error: plot_amplitude_vs_periodogram cannot be applied")
 			return
 		if xaxis=="period":
 			mypow=-1
@@ -1987,13 +1987,13 @@ class Wavepal:
 			(C) 2016 G. Lenoir"""
 		
 		import numpy.linalg as la
-		from dt_min import dt_min
+		from .dt_min import dt_min
 		from tqdm import trange
-		from CWT import CWT
-		from CWT_and_Ampl import CWT_and_Ampl
-		from percentile_n_moments import percentile_n_moments
-		from white_noise_mcmc import white_noise_mcmc
-		from timefreq_analysis_prelims import timefreq_analysis_prelims
+		from .CWT import CWT
+		from .CWT_and_Ampl import CWT_and_Ampl
+		from .percentile_n_moments import percentile_n_moments
+		from .white_noise_mcmc import white_noise_mcmc
+		from .timefreq_analysis_prelims import timefreq_analysis_prelims
 		import copy
 		from scipy.optimize import brenth
 		
@@ -2001,128 +2001,128 @@ class Wavepal:
 		try:
 			assert (theta is None) or np.issubsctype(theta,float)
 		except:
-			print "Error at input 'theta': must be None or a numpy array of 'float' type"
+			print("Error at input 'theta': must be None or a numpy array of 'float' type")
 			return
 		try:
 			assert (permin is None) or ((type(permin) is float) and (permin>0.))
 		except AssertionError:
-			print "Error at input 'permin': must be of 'float' type and >0."
+			print("Error at input 'permin': must be of 'float' type and >0.")
 			return
 		try:
 			assert (permax is None) or ((type(permax) is float) and (permax>0.))
 		except AssertionError:
-			print "Error at input 'permax': must be of 'float' type and >0."
+			print("Error at input 'permax': must be of 'float' type and >0.")
 			return
 		if (permin is not None) and (permax is not None):
 			try:
 				assert permax>=permin
 			except AssertionError:
-				print "Error at input 'permin' and 'permax': must have permax>=permin"
+				print("Error at input 'permin' and 'permax': must have permax>=permin")
 				return
 		try:
 			assert (type(deltaj) is float) and (deltaj>0.)
 		except AssertionError:
-			print "Error at input 'deltaj': must be of 'float' type and >0."
+			print("Error at input 'deltaj': must be of 'float' type and >0.")
 			return
 		try:
 			assert (type(w0) is float) and (w0>=5.5)
 		except AssertionError:
-			print "Error at input 'w0': must be of 'float' type and >=5.5"
+			print("Error at input 'w0': must be of 'float' type and >=5.5")
 			return
 		try:
 			assert (type(gauss_spread) is float) and (gauss_spread>0.)
 		except AssertionError:
-			print "Error at input 'gauss_spread': must be of 'float' type and >0."
+			print("Error at input 'gauss_spread': must be of 'float' type and >0.")
 			return
 		try:
 			assert (type(eps) is float) and (eps>=0.)
 		except AssertionError:
-			print "Error at input 'eps': must be of 'float' type and >=0."
+			print("Error at input 'eps': must be of 'float' type and >=0.")
 			return
 		try:
 			assert (dt_GCD is None) or ((type(dt_GCD) is float) and (dt_GCD>0.))
 		except AssertionError:
-			print "Error at input 'dt_GCD': must be None or of 'float' type and >0."
+			print("Error at input 'dt_GCD': must be None or of 'float' type and >0.")
 			return
 		try:
 			assert type(shannonnyquistexclusionzone) is bool
 		except AssertionError:
-			print "Error at input 'shannonnyquistexclusionzone': Must be True or False"
+			print("Error at input 'shannonnyquistexclusionzone': Must be True or False")
 			return
 		try:
 			assert type(weighted_CWT) is bool
 		except AssertionError:
-			print "Error at input 'weighted_CWT': Must be True or False"
+			print("Error at input 'weighted_CWT': Must be True or False")
 			return
 		try:
 			assert (type(smoothing_coeff) is float) and (smoothing_coeff>=0.)
 		except AssertionError:
-			print "Error at input 'smoothing_coeff': must be of 'float' type and >=0."
+			print("Error at input 'smoothing_coeff': must be of 'float' type and >=0.")
 			return
 		try:
 			assert (type(smoothing_type) is str) and ((smoothing_type.lower()=="fixed") or (smoothing_type.lower()=="variable"))
 		except AssertionError:
-			print "Error at input 'smoothing_type': Must be 'fixed' or 'variable'"
+			print("Error at input 'smoothing_type': Must be 'fixed' or 'variable'")
 			return
 		smoothing_type=smoothing_type.lower()
 		try:
 			assert (percentile is None) or np.issubsctype(percentile,float)
 		except:
-			print "Error at input 'percentile': must be None or a numpy array of 'float' type"
+			print("Error at input 'percentile': must be None or a numpy array of 'float' type")
 			return
 		try:
 			assert (type(n_moments) is int) and (n_moments>=2)
 		except AssertionError:
-			print "Error at input 'n_moments': must be of 'int' type and >=2"
+			print("Error at input 'n_moments': must be of 'int' type and >=2")
 			return
 		try:
 			assert (type(MaxFunEvals) is int) and (MaxFunEvals>=10)
 		except AssertionError:
-			print "Error at input 'MaxFunEvals': must be of 'int' type and >=10"
+			print("Error at input 'MaxFunEvals': must be of 'int' type and >=10")
 			return
 		try:
 			assert (type(algo_moments) is str) and ((algo_moments.lower()=="gamma-polynomial") or (algo_moments.lower()=="generalized-gamma-polynomial"))
 		except AssertionError:
-			print "Error at input 'algo_moments': must be 'gamma-polynomial' or 'generalized-gamma-polynomial'"
+			print("Error at input 'algo_moments': must be 'gamma-polynomial' or 'generalized-gamma-polynomial'")
 			return
 		algo_moments=algo_moments.lower()
 		try:
 			assert type(computes_amplitude) is bool
 		except AssertionError:
-			print "Error at input 'computes_amplitude': must be True or False"
+			print("Error at input 'computes_amplitude': must be True or False")
 			return
 		try:
 			assert type(computes_global_scalogram) is bool
 		except AssertionError:
-			print "Error at input 'computes_global_scalogram': must be True or False"
+			print("Error at input 'computes_global_scalogram': must be True or False")
 			return
 		try:
 			assert type(activate_perlim2) is bool
 		except AssertionError:
-			print "Error at input 'activate_perlim2': must be True or False"
+			print("Error at input 'activate_perlim2': must be True or False")
 			return
 		# check that some functions were previously run
 		if ('a' in self.signif_level_type) or ('n' in self.signif_level_type):
 			try:
 				assert self.run_carma_params is True
 			except AssertionError:
-				print "Error: Must have run function 'carma_params'"
+				print("Error: Must have run function 'carma_params'")
 				return
 		else:
 			try:
 				assert self.run_check_data is True
 			except AssertionError:
-				print "Error: Must have run function 'check_data'"
+				print("Error: Must have run function 'check_data'")
 				return
 			try:
 				assert self.run_choose_trend_degree is True
 			except AssertionError:
-				print "Error: Must have run function 'choose_trend_degree'"
+				print("Error: Must have run function 'choose_trend_degree'")
 				return
 		try:
 			assert self.run_trend_vectors is True
 		except AssertionError:
-			print "Error: Must have run function 'trend_vectors'"
+			print("Error: Must have run function 'trend_vectors'")
 			return
 		# Period -> Scale conversion for 'permin' and 'permax' if they are provided by the user
 		if permin is None:
@@ -2163,12 +2163,12 @@ class Wavepal:
 		try:
 			assert self.theta[0]>=self.t[0]
 		except AssertionError:
-			print "Error: theta[0] must be >= than the smallest time of the time series"
+			print("Error: theta[0] must be >= than the smallest time of the time series")
 			return
 		try:
 			assert self.theta[-1]<=self.t[-1]
 		except AssertionError:
-			print "Error: theta[-1] must be <= than the biggest time of the time series"
+			print("Error: theta[-1] must be <= than the biggest time of the time series")
 			return
 		# Adjust scalemin and scalemax and builds the scale vector
 		scalemin=np.maximum(dt_GCD/np.pi*(1.+eps),scalemin)
@@ -2193,7 +2193,7 @@ class Wavepal:
 		if computes_amplitude is True:
 			self.period_ampl=scale*2.*np.pi
 			self.perlim1_smooth_ampl=scalelim1_smooth*2.*np.pi
-		print "Re-estimated period range: from ", self.period_cwt[0]," to ", self.period_cwt[-1]
+		print("Re-estimated period range: from ", self.period_cwt[0]," to ", self.period_cwt[-1])
 		# WHITE NOISE only: generate white noise processes for MCMC
 		if ('n' in self.signif_level_type) and self.p==0:
 			alpha_gamrnd=float(self.nt-1)/2.0
@@ -2234,7 +2234,7 @@ class Wavepal:
 				self.global_amplitude=np.zeros(J)
 		mydata_transp=np.transpose(self.mydata)
 		self.r=np.zeros((Q,J),dtype=int)
-		print "Main loop, over the time-frequency plane:"
+		print("Main loop, over the time-frequency plane:")
 		for l in trange(J):
 			scale_l=scale[l]
 			if computes_amplitude is True:
@@ -2478,7 +2478,7 @@ class Wavepal:
 		#  and all the moments are computed at 6 particular scales, in order to visualize the convergence
 		if (computes_global_scalogram is True and 'a' in self.signif_level_type):
 			myind_scale_step=int(np.floor(float(J)/5.0))
-			myind_scale_full=range(0,J+1,myind_scale_step)
+			myind_scale_full=list(range(0,J+1,myind_scale_step))
 			myind_scale_full=myind_scale_full[0:6]
 			if myind_scale_full[5]==J:
 				myind_scale_full[5]=J-1
@@ -2498,7 +2498,7 @@ class Wavepal:
 					break
 		if shannonnyquistexclusionzone is False:
 			if activate_perlim2 is True:
-				print "shannonnyquistexclusionzone is False => activate_perlim2 is changed to False"
+				print("shannonnyquistexclusionzone is False => activate_perlim2 is changed to False")
 				activate_perlim2=False
 		if activate_perlim2 is True:
 			scalelim2_smooth_scal=copy.copy(scalelim1_smooth)
@@ -2600,45 +2600,45 @@ class Wavepal:
 			(C) 2016 G. Lenoir"""
 
 		import sys
-		import ridges as ridges
+		from . import ridges as ridges
 		import copy
 		
 		# check inputs
 		try:
 			assert (type(N) is float) and (N>0.)
 		except AssertionError:
-			print "Error at input 'N': must be of 'float' type and >0."
+			print("Error at input 'N': must be of 'float' type and >0.")
 			return
 		try:
 			assert (type(maxampl_point_coeff) is float) and (maxampl_point_coeff>0.)
 		except AssertionError:
-			print "Error at input 'maxampl_point_coeff': must be of 'float' type and >0."
+			print("Error at input 'maxampl_point_coeff': must be of 'float' type and >0.")
 			return
 		try:
 			assert (type(maxampl_ridge_coeff) is float) and (maxampl_ridge_coeff>=0.) and (maxampl_ridge_coeff<=1.)
 		except AssertionError:
-			print "Error at input 'maxampl_ridge_coeff': must be of 'float' type and between 0. and 1."
+			print("Error at input 'maxampl_ridge_coeff': must be of 'float' type and between 0. and 1.")
 			return
 		try:
 			assert (type(chaining_ridges_coeff) is float) and (chaining_ridges_coeff>=0.)
 		except AssertionError:
-			print "Error at input 'chaining_ridges_coeff': must be of 'float' type and >=0."
+			print("Error at input 'chaining_ridges_coeff': must be of 'float' type and >=0.")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		try:
 			assert self.computes_cwtamplitude is True
 		except AssertionError:
-			print "Error: In function 'timefreq_analysis', amplitude must have been computed"
+			print("Error: In function 'timefreq_analysis', amplitude must have been computed")
 			return
 		try:
 			assert self.smoothing_coeff==0.
 		except AssertionError:
-			print "Error: In function 'timefreq_analysis', variable 'smoothing_coeff' must be equal to zero"
+			print("Error: In function 'timefreq_analysis', variable 'smoothing_coeff' must be equal to zero")
 			return
 
 		omega=2.*np.pi/self.period_ampl
@@ -2659,7 +2659,7 @@ class Wavepal:
 				skeleton[k]=5*[None]
 				skeleton[k][0]=self.theta[IR[STARTR[k]:ENDR[k]+1]]
 				skeleton[k][1]=self.period_ampl[JR[STARTR[k]:ENDR[k]+1]]
-				length_skel=len(range(STARTR[k],ENDR[k]+1))
+				length_skel=len(list(range(STARTR[k],ENDR[k]+1)))
 				skeleton[k][2]=np.zeros(length_skel)
 				skeleton[k][3]=np.zeros(length_skel)
 				skeleton[k][4]=np.zeros(length_skel)
@@ -2674,7 +2674,7 @@ class Wavepal:
 				if np.sum(mybool)>0:							#np.prod(bool)==0
 					signifskel=np.append(signifskel,k)
 			nsk=signifskel.size
-			print "Number of ridges is "+str(nsk)
+			print("Number of ridges is "+str(nsk))
 			skeletonbis=copy.copy(skeleton)
 			self.skeleton=[]
 			for k in range(nsk):
@@ -2703,34 +2703,34 @@ class Wavepal:
 		try:
 			assert type(period_bounds) is list
 		except AssertionError:
-			print "Error at input 'period_bounds': must be of type 'list'"
+			print("Error at input 'period_bounds': must be of type 'list'")
 			return
 		for k in range(len(period_bounds)):
 			try:
 				assert type(period_bounds[k]) is tuple
 			except AssertionError:
-				print "Error at input 'period_bounds': must be a list containing tuples"
+				print("Error at input 'period_bounds': must be a list containing tuples")
 				return
 			try:
 				assert (type(period_bounds[k][0]) is float) and (type(period_bounds[k][1]) is float)
 			except:
-				print "Error at input 'period_bounds': must be a list containing tuples, with each tuple containing 2 floats"
+				print("Error at input 'period_bounds': must be a list containing tuples, with each tuple containing 2 floats")
 				return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		try:
 			assert self.computes_cwtamplitude is True
 		except AssertionError:
-			print "Error: In function 'timefreq_analysis', amplitude must have been computed"
+			print("Error: In function 'timefreq_analysis', amplitude must have been computed")
 			return
 		try:
 			assert self.smoothing_coeff==0.
 		except AssertionError:
-			print "Error: In function 'timefreq_analysis', variable 'smoothing_coeff' must be equal to zero"
+			print("Error: In function 'timefreq_analysis', variable 'smoothing_coeff' must be equal to zero")
 			return
 		
 		period_min=self.period_ampl[0]
@@ -2743,7 +2743,7 @@ class Wavepal:
 			try:
 				assert ind_high>=ind_low
 			except AssertionError:
-				print "Error in 'period_bounds' input parameters: must have period_high>=period_low"
+				print("Error in 'period_bounds' input parameters: must have period_high>=period_low")
 				return
 			count=np.zeros(self.theta.size,dtype=int)
 			for k in range(ind_low,(ind_high+1)):
@@ -2815,190 +2815,190 @@ class Wavepal:
 		try:
 			assert type(with_global_scalogram) is bool
 		except AssertionError:
-			print "Error at input 'with_global_scalogram': must be True or False"
+			print("Error at input 'with_global_scalogram': must be True or False")
 			return
 		try:
 			assert (time_string is None) or (type(time_string) is list)
 		except AssertionError:
-			print "Error at input 'time_string': must be None or of type 'list'"
+			print("Error at input 'time_string': must be None or of type 'list'")
 			return
 		if type(time_string) is list:
 			for k in range(len(time_string)):
 				try:
 					assert type(time_string[k]) is float
 				except AssertionError:
-					print "Error at input 'time_string': must be a list containing floats"
+					print("Error at input 'time_string': must be a list containing floats")
 					return
 		try:
 			assert (period_string is None) or (type(period_string) is list)
 		except AssertionError:
-			print "Error at input 'period_string': must be None or of type 'list'"
+			print("Error at input 'period_string': must be None or of type 'list'")
 			return
 		if type(period_string) is list:
 			for k in range(len(period_string)):
 				try:
 					assert type(period_string[k]) is float
 				except AssertionError:
-					print "Error at input 'period_string': must be a list containing floats"
+					print("Error at input 'period_string': must be a list containing floats")
 					return
 		try:
 			assert (power_string is None) or (type(power_string) is list)
 		except AssertionError:
-			print "Error at input 'power_string': must be None or of type 'list'"
+			print("Error at input 'power_string': must be None or of type 'list'")
 			return
 		if type(power_string) is list:
 			for k in range(len(power_string)):
 				try:
 					assert type(power_string[k]) is float
 				except AssertionError:
-					print "Error at input 'power_string': must be a list containing floats"
+					print("Error at input 'power_string': must be a list containing floats")
 					return
 		try:
 			assert (dashed_periods is None) or (type(dashed_periods) is list)
 		except AssertionError:
-			print "Error at input 'dashed_periods': must be None or of type 'list'"
+			print("Error at input 'dashed_periods': must be None or of type 'list'")
 			return
 		if type(dashed_periods) is list:
 			for k in range(len(dashed_periods)):
 				try:
 					assert type(dashed_periods[k]) is float
 				except AssertionError:
-					print "Error at input 'dashed_periods': must be a list containing floats"
+					print("Error at input 'dashed_periods': must be a list containing floats")
 					return
 		try:
 			assert type(left_padding) is float
 		except AssertionError:
-			print "Error at input 'left_padding': must be of type 'float'"
+			print("Error at input 'left_padding': must be of type 'float'")
 			return
 		try:
 			assert type(right_padding) is float
 		except AssertionError:
-			print "Error at input 'right_padding': must be of type 'float'"
+			print("Error at input 'right_padding': must be of type 'float'")
 			return
 		try:
 			assert type(middle_padding) is float
 		except AssertionError:
-			print "Error at input 'middle_padding': must be of type 'float'"
+			print("Error at input 'middle_padding': must be of type 'float'")
 			return
 		try:
 			assert (color_cl_anal is None) or (type(color_cl_anal) is list)
 		except AssertionError:
-			print "Error at input 'color_cl_anal': must be None or of type 'list'"
+			print("Error at input 'color_cl_anal': must be None or of type 'list'")
 			return
 		try:
 			assert (color_cl_mcmc is None) or (type(color_cl_mcmc) is list)
 		except AssertionError:
-			print "Error at input 'color_cl_mcmc': must be None or of type 'list'"
+			print("Error at input 'color_cl_mcmc': must be None or of type 'list'")
 			return
 		try:
 			assert (type(linewidth_cl) is int) or (type(linewidth_cl) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_cl': must be an integer or float"
+			print("Error at input 'linewidth_cl': must be an integer or float")
 			return
 		try:
 			assert (type(global_scal_xlabel) is str) and ((global_scal_xlabel.lower()=="bottom") or (global_scal_xlabel.lower()=="top"))
 		except AssertionError:
-			print "Error at input 'global_scal_xlabel': must be 'bottom' or 'top'"
+			print("Error at input 'global_scal_xlabel': must be 'bottom' or 'top'")
 			return
 		global_scal_xlabel=global_scal_xlabel.lower()
 		try:
 			assert (type(global_scal_xlabel_ticks) is str) and ((global_scal_xlabel_ticks.lower()=="bottom") or (global_scal_xlabel_ticks.lower()=="top"))
 		except AssertionError:
-			print "Error at input 'global_scal_xlabel_ticks': must be 'bottom' or 'top'"
+			print("Error at input 'global_scal_xlabel_ticks': must be 'bottom' or 'top'")
 			return
 		global_scal_xlabel_ticks=global_scal_xlabel_ticks.lower()
 		try:
 			assert (type(linewidth_gscal) is int) or (type(linewidth_gscal) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_gscal': must be an integer or float"
+			print("Error at input 'linewidth_gscal': must be an integer or float")
 			return
 		try:
 			assert (type(linewidth_gcl) is int) or (type(linewidth_gcl) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_gcl': must be an integer or float"
+			print("Error at input 'linewidth_gcl': must be an integer or float")
 			return
 		try:
 			assert type(cmap) is str
 		except AssertionError:
-			print "Error at input 'cmap': must be of type 'str'"
+			print("Error at input 'cmap': must be of type 'str'")
 			return
 		try:
 			assert (type(nlevels) is int) and nlevels>0
 		except AssertionError:
-			print "Error at input 'nlevels': must be an integer >0"
+			print("Error at input 'nlevels': must be an integer >0")
 			return
 		try:
 			assert (type(plot_coi) is str) and ((plot_coi.lower()=="fill") or (plot_coi.lower()=="line"))
 		except AssertionError:
-			print "Error at input 'plot_coi': must be 'fill' or 'line'"
+			print("Error at input 'plot_coi': must be 'fill' or 'line'")
 			return
 		plot_coi=plot_coi.lower()
 		try:
 			assert (type(linewidth_coi) is int) or (type(linewidth_coi) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_coi': must be an integer or float"
+			print("Error at input 'linewidth_coi': must be an integer or float")
 			return
 		try:
 			assert (type(plot_perlim2) is str) and ((plot_perlim2.lower()=="fill") or (plot_perlim2.lower()=="line"))
 		except AssertionError:
-			print "Error at input 'plot_perlim2': must be 'fill' or 'line'"
+			print("Error at input 'plot_perlim2': must be 'fill' or 'line'")
 			return
 		plot_perlim2=plot_perlim2.lower()
 		try:
 			assert (type(linewidth_perlim2) is int) or (type(linewidth_perlim2) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_perlim2': must be an integer or float"
+			print("Error at input 'linewidth_perlim2': must be an integer or float")
 			return
 		try:
 			assert type(reverse_xaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_xaxis': must be True or False"
+			print("Error at input 'reverse_xaxis': must be True or False")
 			return
 		try:
 			assert type(reverse_yaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_yaxis': must be True or False"
+			print("Error at input 'reverse_yaxis': must be True or False")
 			return
 		try:
 			assert ((type(alpha_SNEZ) is float) or (type(alpha_SNEZ) is int)) and (alpha_SNEZ>=0 and alpha_SNEZ<=1)
 		except AssertionError:
-			print "Error at input 'alpha_SNEZ': must of type float or int and must take a value in [0,1]"
+			print("Error at input 'alpha_SNEZ': must of type float or int and must take a value in [0,1]")
 			return
 		try:
 			assert (type(decimals) is int) and decimals>=0
 		except AssertionError:
-			print "Error at input 'decimals': must be an integer >=0"
+			print("Error at input 'decimals': must be an integer >=0")
 			return
 		try:
 			assert (minscal is None) or (type(minscal) is float and minscal>=0.)
 		except AssertionError:
-			print "Error at input 'minscal': must be a float >=0"
+			print("Error at input 'minscal': must be a float >=0")
 			return
 		try:
 			assert (maxscal is None) or (type(maxscal) is float and maxscal>=0.)
 		except AssertionError:
-			print "Error at input 'maxscal': must be a float, >=0, and >= 'minscal'"
+			print("Error at input 'maxscal': must be a float, >=0, and >= 'minscal'")
 			return
 		try:
 			assert (permin_ext is None) or (type(permin_ext) is float and permin_ext>=0.)
 		except AssertionError:
-			print "Error at input 'permin_ext': must be a float >=0"
+			print("Error at input 'permin_ext': must be a float >=0")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		if with_global_scalogram is True:
 			try:
 				assert self.computes_global_scalogram is True
 			except AssertionError:
-				print "Error: Global scalogram was not computed"
-				print "=> drawing the figure without the global scalogram"
+				print("Error: Global scalogram was not computed")
+				print("=> drawing the figure without the global scalogram")
 				with_global_scalogram=False
 		if (self.shannonnyquistexclusionzone is False) and (permin_ext is not None):
-			print "parameter 'permin_ext' changed to 'None', since 'shannonnyquistexclusionzone' is 'False'"
+			print("parameter 'permin_ext' changed to 'None', since 'shannonnyquistexclusionzone' is 'False'")
 			permin_ext=None
 		if period_string is None:
 			if (permin_ext is not None) and (permin_ext<self.period_cwt[0]):
@@ -3019,7 +3019,7 @@ class Wavepal:
 		try:
 			assert maxscal>=minscal
 		except AssertionError:
-			print "Error: variable 'maxscal' must be greater than or equal to 'minscal'"
+			print("Error: variable 'maxscal' must be greater than or equal to 'minscal'")
 			return
 		if with_global_scalogram is True:
 			gs1 = gridspec.GridSpec(1,5)
@@ -3189,18 +3189,18 @@ class Wavepal:
 		try:
 			assert (type(linewidth) is int) or (type(linewidth) is float)
 		except AssertionError:
-			print "Error at input 'linewidth': must be an integer or float"
+			print("Error at input 'linewidth': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		try:
 			assert 'a' in self.signif_level_type
 		except AssertionError:
-			print "Error: plot_check_convergence_percentiles_cwt cannot be applied"
+			print("Error: plot_check_convergence_percentiles_cwt cannot be applied")
 			return
 
 		mytheta=np.zeros(6)
@@ -3236,7 +3236,7 @@ class Wavepal:
 			box = aa.get_position()
 			aa.set_position([box.x0, box.y0, box.width * 0.8, box.height])
 			for k in range(self.percentile_cwt.size):
-				aa.plot(range(2,self.n_moments_cwt+1),mypercentile[l,:,k],label=str(self.percentile_cwt[k])+"%",linewidth=linewidth)
+				aa.plot(list(range(2,self.n_moments_cwt+1)),mypercentile[l,:,k],label=str(self.percentile_cwt[k])+"%",linewidth=linewidth)
 			if l==1:
 				aa.legend(fontsize=fontsize_legend,loc='upper left', bbox_to_anchor=(1, 1.3), fancybox=True)  # ncol=min(3,n_moments%3+n_moments/3)
 			mytheta_for_plot='%.*f' % (4, mytheta[l])
@@ -3284,76 +3284,76 @@ class Wavepal:
 		try:
 			assert (time_string is None) or (type(time_string) is list)
 		except AssertionError:
-			print "Error at input 'time_string': must be None or of type 'list'"
+			print("Error at input 'time_string': must be None or of type 'list'")
 			return
 		if type(time_string) is list:
 			for k in range(len(time_string)):
 				try:
 					assert type(time_string[k]) is float
 				except AssertionError:
-					print "Error at input 'time_string': must be a list containing floats"
+					print("Error at input 'time_string': must be a list containing floats")
 					return
 		try:
 			assert (period_string is None) or (type(period_string) is list)
 		except AssertionError:
-			print "Error at input 'period_string': must be None or of type 'list'"
+			print("Error at input 'period_string': must be None or of type 'list'")
 			return
 		if type(period_string) is list:
 			for k in range(len(period_string)):
 				try:
 					assert type(period_string[k]) is float
 				except AssertionError:
-					print "Error at input 'period_string': must be a list containing floats"
+					print("Error at input 'period_string': must be a list containing floats")
 					return
 		try:
 			assert (power_string is None) or (type(power_string) is list)
 		except AssertionError:
-			print "Error at input 'power_string': must be None or of type 'list'"
+			print("Error at input 'power_string': must be None or of type 'list'")
 			return
 		if type(power_string) is list:
 			for k in range(len(power_string)):
 				try:
 					assert type(power_string[k]) is float
 				except AssertionError:
-					print "Error at input 'power_string': must be a list containing floats"
+					print("Error at input 'power_string': must be a list containing floats")
 					return
 		try:
 			assert (dashed_periods is None) or (type(dashed_periods) is list)
 		except AssertionError:
-			print "Error at input 'dashed_periods': must be None or of type 'list'"
+			print("Error at input 'dashed_periods': must be None or of type 'list'")
 			return
 		if type(dashed_periods) is list:
 			for k in range(len(dashed_periods)):
 				try:
 					assert type(dashed_periods[k]) is float
 				except AssertionError:
-					print "Error at input 'dashed_periods': must be a list containing floats"
+					print("Error at input 'dashed_periods': must be a list containing floats")
 					return
 		try:
 			assert type(cmap) is str
 		except AssertionError:
-			print "Error at input 'cmap': must be of type 'str'"
+			print("Error at input 'cmap': must be of type 'str'")
 			return
 		try:
 			assert type(reverse_xaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_xaxis': must be True or False"
+			print("Error at input 'reverse_xaxis': must be True or False")
 			return
 		try:
 			assert type(reverse_yaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_yaxis': must be True or False"
+			print("Error at input 'reverse_yaxis': must be True or False")
 			return
 		try:
 			assert ((type(alpha_SNEZ) is float) or (type(alpha_SNEZ) is int)) and (alpha_SNEZ>=0 and alpha_SNEZ<=1)
 		except AssertionError:
-			print "Error at input 'alpha_SNEZ': must of type float or int and must take a value in [0,1]"
+			print("Error at input 'alpha_SNEZ': must of type float or int and must take a value in [0,1]")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		if period_string is None:
 			myperiod=np.ceil(np.log2(self.period_cwt[0]))
@@ -3364,7 +3364,7 @@ class Wavepal:
 				if myperiod>self.period_cwt[-1]:
 					break
 				period_string.append(myperiod)
-		mycontourf=plt.contourf(self.theta,np.log2(self.period_cwt),np.transpose(self.r),levels=range(self.r.max()+1),cmap=cmap)
+		mycontourf=plt.contourf(self.theta,np.log2(self.period_cwt),np.transpose(self.r),levels=list(range(self.r.max()+1)),cmap=cmap)
 		plt.fill_betweenx(np.log2(self.period_cwt),self.theta[0],self.coi1_smooth,edgecolors=None,facecolor='black')
 		plt.fill_betweenx(np.log2(self.period_cwt),self.coi2_smooth,self.theta[-1],edgecolors=None,facecolor='black')
 		if self.shannonnyquistexclusionzone is True:
@@ -3443,145 +3443,145 @@ class Wavepal:
 		try:
 			assert type(with_pseudo_global_spectrum_anal) is bool
 		except AssertionError:
-			print "Error at input 'with_pseudo_global_spectrum_anal': must be True or False"
+			print("Error at input 'with_pseudo_global_spectrum_anal': must be True or False")
 			return
 		try:
 			assert (time_string is None) or (type(time_string) is list)
 		except AssertionError:
-			print "Error at input 'time_string': must be None or of type 'list'"
+			print("Error at input 'time_string': must be None or of type 'list'")
 			return
 		if type(time_string) is list:
 			for k in range(len(time_string)):
 				try:
 					assert type(time_string[k]) is float
 				except AssertionError:
-					print "Error at input 'time_string': must be a list containing floats"
+					print("Error at input 'time_string': must be a list containing floats")
 					return
 		try:
 			assert (period_string is None) or (type(period_string) is list)
 		except AssertionError:
-			print "Error at input 'period_string': must be None or of type 'list'"
+			print("Error at input 'period_string': must be None or of type 'list'")
 			return
 		if type(period_string) is list:
 			for k in range(len(period_string)):
 				try:
 					assert type(period_string[k]) is float
 				except AssertionError:
-					print "Error at input 'period_string': must be a list containing floats"
+					print("Error at input 'period_string': must be a list containing floats")
 					return
 		try:
 			assert (power_string is None) or (type(power_string) is list)
 		except AssertionError:
-			print "Error at input 'power_string': must be None or of type 'list'"
+			print("Error at input 'power_string': must be None or of type 'list'")
 			return
 		if type(power_string) is list:
 			for k in range(len(power_string)):
 				try:
 					assert type(power_string[k]) is float
 				except AssertionError:
-					print "Error at input 'power_string': must be a list containing floats"
+					print("Error at input 'power_string': must be a list containing floats")
 					return
 		try:
 			assert type(left_padding) is float
 		except AssertionError:
-			print "Error at input 'left_padding': must be of type 'float'"
+			print("Error at input 'left_padding': must be of type 'float'")
 			return
 		try:
 			assert type(right_padding) is float
 		except AssertionError:
-			print "Error at input 'right_padding': must be of type 'float'"
+			print("Error at input 'right_padding': must be of type 'float'")
 			return
 		try:
 			assert type(middle_padding) is float
 		except AssertionError:
-			print "Error at input 'middle_padding': must be of type 'float'"
+			print("Error at input 'middle_padding': must be of type 'float'")
 			return
 		try:
 			assert (type(pseudo_global_spectrum_anal_xlabel) is str) and ((pseudo_global_spectrum_anal_xlabel.lower()=="bottom") or (pseudo_global_spectrum_anal_xlabel.lower()=="top"))
 		except AssertionError:
-			print "Error at input 'pseudo_global_spectrum_anal_xlabel': must be 'bottom' or 'top'"
+			print("Error at input 'pseudo_global_spectrum_anal_xlabel': must be 'bottom' or 'top'")
 			return
 		pseudo_global_spectrum_anal_xlabel=pseudo_global_spectrum_anal_xlabel.lower()
 		try:
 			assert (type(pseudo_global_spectrum_anal_xlabel_ticks) is str) and ((pseudo_global_spectrum_anal_xlabel_ticks.lower()=="bottom") or (pseudo_global_spectrum_anal_xlabel_ticks.lower()=="top"))
 		except AssertionError:
-			print "Error at input 'pseudo_global_spectrum_anal_xlabel_ticks': must be 'bottom' or 'top'"
+			print("Error at input 'pseudo_global_spectrum_anal_xlabel_ticks': must be 'bottom' or 'top'")
 			return
 		pseudo_global_spectrum_anal_xlabel_ticks=pseudo_global_spectrum_anal_xlabel_ticks.lower()
 		try:
 			assert type(cmap) is str
 		except AssertionError:
-			print "Error at input 'cmap': must be of type 'str'"
+			print("Error at input 'cmap': must be of type 'str'")
 			return
 		try:
 			assert (type(nlevels) is int) and nlevels>0
 		except AssertionError:
-			print "Error at input 'nlevels': must be an integer >0"
+			print("Error at input 'nlevels': must be an integer >0")
 			return
 		try:
 			assert (type(plot_coi) is str) and ((plot_coi.lower()=="fill") or (plot_coi.lower()=="line"))
 		except AssertionError:
-			print "Error at input 'plot_coi': must be 'fill' or 'line'"
+			print("Error at input 'plot_coi': must be 'fill' or 'line'")
 			return
 		plot_coi=plot_coi.lower()
 		try:
 			assert (type(linewidth_coi) is int) or (type(linewidth_coi) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_coi': must be an integer or float"
+			print("Error at input 'linewidth_coi': must be an integer or float")
 			return
 		try:
 			assert (type(plot_perlim2) is str) and ((plot_perlim2.lower()=="fill") or (plot_perlim2.lower()=="line"))
 		except AssertionError:
-			print "Error at input 'plot_perlim2': must be 'fill' or 'line'"
+			print("Error at input 'plot_perlim2': must be 'fill' or 'line'")
 			return
 		plot_perlim2=plot_perlim2.lower()
 		try:
 			assert (type(linewidth_perlim2) is int) or (type(linewidth_perlim2) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_perlim2': must be an integer or float"
+			print("Error at input 'linewidth_perlim2': must be an integer or float")
 			return
 		try:
 			assert (type(linewidth_gspec) is int) or (type(linewidth_gspec) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_gspec': must be an integer or float"
+			print("Error at input 'linewidth_gspec': must be an integer or float")
 			return
 		try:
 			assert type(reverse_xaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_xaxis': must be True or False"
+			print("Error at input 'reverse_xaxis': must be True or False")
 			return
 		try:
 			assert type(reverse_yaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_yaxis': must be True or False"
+			print("Error at input 'reverse_yaxis': must be True or False")
 			return
 		try:
 			assert ((type(alpha_SNEZ) is float) or (type(alpha_SNEZ) is int)) and (alpha_SNEZ>=0 and alpha_SNEZ<=1)
 		except AssertionError:
-			print "Error at input 'alpha_SNEZ': must of type float or int and must take a value in [0,1]"
+			print("Error at input 'alpha_SNEZ': must of type float or int and must take a value in [0,1]")
 			return
 		try:
 			assert (type(decimals) is int) and decimals>=0
 		except AssertionError:
-			print "Error at input 'decimals': must be an integer >=0"
+			print("Error at input 'decimals': must be an integer >=0")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		try:
 			assert ('a' in self.signif_level_type)
 		except AssertionError:
-			print "Error: plot_pseudo_cwtspectrum_anal cannot be applied"
+			print("Error: plot_pseudo_cwtspectrum_anal cannot be applied")
 			return
 		if with_pseudo_global_spectrum_anal is True:
 			try:
 				assert self.computes_global_scalogram is True
 			except AssertionError:
-				print "Error: Global scalogram was not computed"
-				print "=> drawing the figure without the pseudo_global_spectrum_anal"
+				print("Error: Global scalogram was not computed")
+				print("=> drawing the figure without the pseudo_global_spectrum_anal")
 				with_pseudo_global_spectrum_anal=False
 		if period_string is None:
 			myperiod=np.ceil(np.log2(self.period_cwt[0]))
@@ -3719,145 +3719,145 @@ class Wavepal:
 		try:
 			assert type(with_pseudo_global_spectrum_mcmc) is bool
 		except AssertionError:
-			print "Error at input 'with_pseudo_global_spectrum_mcmc': must be True or False"
+			print("Error at input 'with_pseudo_global_spectrum_mcmc': must be True or False")
 			return
 		try:
 			assert (time_string is None) or (type(time_string) is list)
 		except AssertionError:
-			print "Error at input 'time_string': must be None or of type 'list'"
+			print("Error at input 'time_string': must be None or of type 'list'")
 			return
 		if type(time_string) is list:
 			for k in range(len(time_string)):
 				try:
 					assert type(time_string[k]) is float
 				except AssertionError:
-					print "Error at input 'time_string': must be a list containing floats"
+					print("Error at input 'time_string': must be a list containing floats")
 					return
 		try:
 			assert (period_string is None) or (type(period_string) is list)
 		except AssertionError:
-			print "Error at input 'period_string': must be None or of type 'list'"
+			print("Error at input 'period_string': must be None or of type 'list'")
 			return
 		if type(period_string) is list:
 			for k in range(len(period_string)):
 				try:
 					assert type(period_string[k]) is float
 				except AssertionError:
-					print "Error at input 'period_string': must be a list containing floats"
+					print("Error at input 'period_string': must be a list containing floats")
 					return
 		try:
 			assert (power_string is None) or (type(power_string) is list)
 		except AssertionError:
-			print "Error at input 'power_string': must be None or of type 'list'"
+			print("Error at input 'power_string': must be None or of type 'list'")
 			return
 		if type(power_string) is list:
 			for k in range(len(power_string)):
 				try:
 					assert type(power_string[k]) is float
 				except AssertionError:
-					print "Error at input 'power_string': must be a list containing floats"
+					print("Error at input 'power_string': must be a list containing floats")
 					return
 		try:
 			assert type(left_padding) is float
 		except AssertionError:
-			print "Error at input 'left_padding': must be of type 'float'"
+			print("Error at input 'left_padding': must be of type 'float'")
 			return
 		try:
 			assert type(right_padding) is float
 		except AssertionError:
-			print "Error at input 'right_padding': must be of type 'float'"
+			print("Error at input 'right_padding': must be of type 'float'")
 			return
 		try:
 			assert type(middle_padding) is float
 		except AssertionError:
-			print "Error at input 'middle_padding': must be of type 'float'"
+			print("Error at input 'middle_padding': must be of type 'float'")
 			return
 		try:
 			assert (type(pseudo_global_spectrum_mcmc_xlabel) is str) and ((pseudo_global_spectrum_mcmc_xlabel.lower()=="bottom") or (pseudo_global_spectrum_mcmc_xlabel.lower()=="top"))
 		except AssertionError:
-			print "Error at input 'pseudo_global_spectrum_mcmc_xlabel': must be 'bottom' or 'top'"
+			print("Error at input 'pseudo_global_spectrum_mcmc_xlabel': must be 'bottom' or 'top'")
 			return
 		pseudo_global_spectrum_mcmc_xlabel=pseudo_global_spectrum_mcmc_xlabel.lower()
 		try:
 			assert (type(pseudo_global_spectrum_mcmc_xlabel_ticks) is str) and ((pseudo_global_spectrum_mcmc_xlabel_ticks.lower()=="bottom") or (pseudo_global_spectrum_mcmc_xlabel_ticks.lower()=="top"))
 		except AssertionError:
-			print "Error at input 'pseudo_global_spectrum_mcmc_xlabel_ticks': must be 'bottom' or 'top'"
+			print("Error at input 'pseudo_global_spectrum_mcmc_xlabel_ticks': must be 'bottom' or 'top'")
 			return
 		pseudo_global_spectrum_mcmc_xlabel_ticks=pseudo_global_spectrum_mcmc_xlabel_ticks.lower()
 		try:
 			assert type(cmap) is str
 		except AssertionError:
-			print "Error at input 'cmap': must be of type 'str'"
+			print("Error at input 'cmap': must be of type 'str'")
 			return
 		try:
 			assert (type(nlevels) is int) and nlevels>0
 		except AssertionError:
-			print "Error at input 'nlevels': must be an integer >0"
+			print("Error at input 'nlevels': must be an integer >0")
 			return
 		try:
 			assert (type(plot_coi) is str) and ((plot_coi.lower()=="fill") or (plot_coi.lower()=="line"))
 		except AssertionError:
-			print "Error at input 'plot_coi': must be 'fill' or 'line'"
+			print("Error at input 'plot_coi': must be 'fill' or 'line'")
 			return
 		plot_coi=plot_coi.lower()
 		try:
 			assert (type(linewidth_coi) is int) or (type(linewidth_coi) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_coi': must be an integer or float"
+			print("Error at input 'linewidth_coi': must be an integer or float")
 			return
 		try:
 			assert (type(plot_perlim2) is str) and ((plot_perlim2.lower()=="fill") or (plot_perlim2.lower()=="line"))
 		except AssertionError:
-			print "Error at input 'plot_perlim2': must be 'fill' or 'line'"
+			print("Error at input 'plot_perlim2': must be 'fill' or 'line'")
 			return
 		plot_perlim2=plot_perlim2.lower()
 		try:
 			assert (type(linewidth_perlim2) is int) or (type(linewidth_perlim2) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_perlim2': must be an integer or float"
+			print("Error at input 'linewidth_perlim2': must be an integer or float")
 			return
 		try:
 			assert (type(linewidth_gspec) is int) or (type(linewidth_gspec) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_gspec': must be an integer or float"
+			print("Error at input 'linewidth_gspec': must be an integer or float")
 			return
 		try:
 			assert type(reverse_xaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_xaxis': must be True or False"
+			print("Error at input 'reverse_xaxis': must be True or False")
 			return
 		try:
 			assert type(reverse_yaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_yaxis': must be True or False"
+			print("Error at input 'reverse_yaxis': must be True or False")
 			return
 		try:
 			assert ((type(alpha_SNEZ) is float) or (type(alpha_SNEZ) is int)) and (alpha_SNEZ>=0 and alpha_SNEZ<=1)
 		except AssertionError:
-			print "Error at input 'alpha_SNEZ': must of type float or int and must take a value in [0,1]"
+			print("Error at input 'alpha_SNEZ': must of type float or int and must take a value in [0,1]")
 			return
 		try:
 			assert (type(decimals) is int) and decimals>=0
 		except AssertionError:
-			print "Error at input 'decimals': must be an integer >=0"
+			print("Error at input 'decimals': must be an integer >=0")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		try:
 			assert ('n' in self.signif_level_type)
 		except AssertionError:
-			print "Error: plot_pseudo_cwtspectrum_mcmc cannot be applied"
+			print("Error: plot_pseudo_cwtspectrum_mcmc cannot be applied")
 			return
 		if with_pseudo_global_spectrum_mcmc is True:
 			try:
 				assert self.computes_global_scalogram is True
 			except AssertionError:
-				print "Error: Global scalogram was not computed"
-				print "=> drawing the figure without the pseudo_global_spectrum_mcmc"
+				print("Error: Global scalogram was not computed")
+				print("=> drawing the figure without the pseudo_global_spectrum_mcmc")
 				with_pseudo_global_spectrum_mcmc=False
 		if period_string is None:
 			myperiod=np.ceil(np.log2(self.period_cwt[0]))
@@ -3995,145 +3995,145 @@ class Wavepal:
 		try:
 			assert type(with_global_scalogram_variance_anal) is bool
 		except AssertionError:
-			print "Error at input 'with_global_scalogram_variance_anal': must be True or False"
+			print("Error at input 'with_global_scalogram_variance_anal': must be True or False")
 			return
 		try:
 			assert (time_string is None) or (type(time_string) is list)
 		except AssertionError:
-			print "Error at input 'time_string': must be None or of type 'list'"
+			print("Error at input 'time_string': must be None or of type 'list'")
 			return
 		if type(time_string) is list:
 			for k in range(len(time_string)):
 				try:
 					assert type(time_string[k]) is float
 				except AssertionError:
-					print "Error at input 'time_string': must be a list containing floats"
+					print("Error at input 'time_string': must be a list containing floats")
 					return
 		try:
 			assert (period_string is None) or (type(period_string) is list)
 		except AssertionError:
-			print "Error at input 'period_string': must be None or of type 'list'"
+			print("Error at input 'period_string': must be None or of type 'list'")
 			return
 		if type(period_string) is list:
 			for k in range(len(period_string)):
 				try:
 					assert type(period_string[k]) is float
 				except AssertionError:
-					print "Error at input 'period_string': must be a list containing floats"
+					print("Error at input 'period_string': must be a list containing floats")
 					return
 		try:
 			assert (power_string is None) or (type(power_string) is list)
 		except AssertionError:
-			print "Error at input 'power_string': must be None or of type 'list'"
+			print("Error at input 'power_string': must be None or of type 'list'")
 			return
 		if type(power_string) is list:
 			for k in range(len(power_string)):
 				try:
 					assert type(power_string[k]) is float
 				except AssertionError:
-					print "Error at input 'power_string': must be a list containing floats"
+					print("Error at input 'power_string': must be a list containing floats")
 					return
 		try:
 			assert type(left_padding) is float
 		except AssertionError:
-			print "Error at input 'left_padding': must be of type 'float'"
+			print("Error at input 'left_padding': must be of type 'float'")
 			return
 		try:
 			assert type(right_padding) is float
 		except AssertionError:
-			print "Error at input 'right_padding': must be of type 'float'"
+			print("Error at input 'right_padding': must be of type 'float'")
 			return
 		try:
 			assert type(middle_padding) is float
 		except AssertionError:
-			print "Error at input 'middle_padding': must be of type 'float'"
+			print("Error at input 'middle_padding': must be of type 'float'")
 			return
 		try:
 			assert (type(global_scalogram_variance_anal_xlabel) is str) and ((global_scalogram_variance_anal_xlabel.lower()=="bottom") or (global_scalogram_variance_anal_xlabel.lower()=="top"))
 		except AssertionError:
-			print "Error at input 'global_scalogram_variance_anal_xlabel': must be 'bottom' or 'top'"
+			print("Error at input 'global_scalogram_variance_anal_xlabel': must be 'bottom' or 'top'")
 			return
 		global_scalogram_variance_anal_xlabel=global_scalogram_variance_anal_xlabel.lower()
 		try:
 			assert (type(global_scalogram_variance_anal_xlabel_ticks) is str) and ((global_scalogram_variance_anal_xlabel_ticks.lower()=="bottom") or (global_scalogram_variance_anal_xlabel_ticks.lower()=="top"))
 		except AssertionError:
-			print "Error at input 'global_scalogram_variance_anal_xlabel_ticks': must be 'bottom' or 'top'"
+			print("Error at input 'global_scalogram_variance_anal_xlabel_ticks': must be 'bottom' or 'top'")
 			return
 		global_scalogram_variance_anal_xlabel_ticks=global_scalogram_variance_anal_xlabel_ticks.lower()
 		try:
 			assert type(cmap) is str
 		except AssertionError:
-			print "Error at input 'cmap': must be of type 'str'"
+			print("Error at input 'cmap': must be of type 'str'")
 			return
 		try:
 			assert (type(nlevels) is int) and nlevels>0
 		except AssertionError:
-			print "Error at input 'nlevels': must be an integer >0"
+			print("Error at input 'nlevels': must be an integer >0")
 			return
 		try:
 			assert (type(plot_coi) is str) and ((plot_coi.lower()=="fill") or (plot_coi.lower()=="line"))
 		except AssertionError:
-			print "Error at input 'plot_coi': must be 'fill' or 'line'"
+			print("Error at input 'plot_coi': must be 'fill' or 'line'")
 			return
 		plot_coi=plot_coi.lower()
 		try:
 			assert (type(linewidth_coi) is int) or (type(linewidth_coi) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_coi': must be an integer or float"
+			print("Error at input 'linewidth_coi': must be an integer or float")
 			return
 		try:
 			assert (type(plot_perlim2) is str) and ((plot_perlim2.lower()=="fill") or (plot_perlim2.lower()=="line"))
 		except AssertionError:
-			print "Error at input 'plot_perlim2': must be 'fill' or 'line'"
+			print("Error at input 'plot_perlim2': must be 'fill' or 'line'")
 			return
 		plot_perlim2=plot_perlim2.lower()
 		try:
 			assert (type(linewidth_perlim2) is int) or (type(linewidth_perlim2) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_perlim2': must be an integer or float"
+			print("Error at input 'linewidth_perlim2': must be an integer or float")
 			return
 		try:
 			assert (type(linewidth_gscal) is int) or (type(linewidth_gscal) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_gscal': must be an integer or float"
+			print("Error at input 'linewidth_gscal': must be an integer or float")
 			return
 		try:
 			assert type(reverse_xaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_xaxis': must be True or False"
+			print("Error at input 'reverse_xaxis': must be True or False")
 			return
 		try:
 			assert type(reverse_yaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_yaxis': must be True or False"
+			print("Error at input 'reverse_yaxis': must be True or False")
 			return
 		try:
 			assert ((type(alpha_SNEZ) is float) or (type(alpha_SNEZ) is int)) and (alpha_SNEZ>=0 and alpha_SNEZ<=1)
 		except AssertionError:
-			print "Error at input 'alpha_SNEZ': must of type float or int and must take a value in [0,1]"
+			print("Error at input 'alpha_SNEZ': must of type float or int and must take a value in [0,1]")
 			return
 		try:
 			assert (type(decimals) is int) and decimals>=0
 		except AssertionError:
-			print "Error at input 'decimals': must be an integer >=0"
+			print("Error at input 'decimals': must be an integer >=0")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		try:
 			assert ('a' in self.signif_level_type) and self.weighted_CWT is False
 		except AssertionError:
-			print "Error: plot_cwt_variance_anal cannot be applied"
+			print("Error: plot_cwt_variance_anal cannot be applied")
 			return
 		if with_global_scalogram_variance_anal is True:
 			try:
 				assert self.computes_global_scalogram is True
 			except AssertionError:
-				print "Error: Global variance was not computed"
-				print "=> drawing the figure without the global_scalogram_variance_anal"
+				print("Error: Global variance was not computed")
+				print("=> drawing the figure without the global_scalogram_variance_anal")
 				with_global_scalogram_variance_anal=False
 		if period_string is None:
 			myperiod=np.ceil(np.log2(self.period_cwt[0]))
@@ -4276,171 +4276,171 @@ class Wavepal:
 		try:
 			assert type(with_global_amplitude) is bool
 		except AssertionError:
-			print "Error at input 'with_global_amplitude': must be True or False"
+			print("Error at input 'with_global_amplitude': must be True or False")
 			return
 		try:
 			assert (time_string is None) or (type(time_string) is list)
 		except AssertionError:
-			print "Error at input 'time_string': must be None or of type 'list'"
+			print("Error at input 'time_string': must be None or of type 'list'")
 			return
 		if type(time_string) is list:
 			for k in range(len(time_string)):
 				try:
 					assert type(time_string[k]) is float
 				except AssertionError:
-					print "Error at input 'time_string': must be a list containing floats"
+					print("Error at input 'time_string': must be a list containing floats")
 					return
 		try:
 			assert (period_string is None) or (type(period_string) is list)
 		except AssertionError:
-			print "Error at input 'period_string': must be None or of type 'list'"
+			print("Error at input 'period_string': must be None or of type 'list'")
 			return
 		if type(period_string) is list:
 			for k in range(len(period_string)):
 				try:
 					assert type(period_string[k]) is float
 				except AssertionError:
-					print "Error at input 'period_string': must be a list containing floats"
+					print("Error at input 'period_string': must be a list containing floats")
 					return
 		try:
 			assert (power_string is None) or (type(power_string) is list)
 		except AssertionError:
-			print "Error at input 'power_string': must be None or of type 'list'"
+			print("Error at input 'power_string': must be None or of type 'list'")
 			return
 		if type(power_string) is list:
 			for k in range(len(power_string)):
 				try:
 					assert type(power_string[k]) is float
 				except AssertionError:
-					print "Error at input 'power_string': must be a list containing floats"
+					print("Error at input 'power_string': must be a list containing floats")
 					return
 		try:
 			assert type(left_padding) is float
 		except AssertionError:
-			print "Error at input 'left_padding': must be of type 'float'"
+			print("Error at input 'left_padding': must be of type 'float'")
 			return
 		try:
 			assert type(right_padding) is float
 		except AssertionError:
-			print "Error at input 'right_padding': must be of type 'float'"
+			print("Error at input 'right_padding': must be of type 'float'")
 			return
 		try:
 			assert type(middle_padding) is float
 		except AssertionError:
-			print "Error at input 'middle_padding': must be of type 'float'"
+			print("Error at input 'middle_padding': must be of type 'float'")
 			return
 		try:
 			assert (type(global_amplitude_xlabel) is str) and ((global_amplitude_xlabel.lower()=="bottom") or (global_amplitude_xlabel.lower()=="top"))
 		except AssertionError:
-			print "Error at input 'global_amplitude_xlabel': must be 'bottom' or 'top'"
+			print("Error at input 'global_amplitude_xlabel': must be 'bottom' or 'top'")
 			return
 		global_amplitude_xlabel=global_amplitude_xlabel.lower()
 		try:
 			assert (type(global_amplitude_xlabel_ticks) is str) and ((global_amplitude_xlabel_ticks.lower()=="bottom") or (global_amplitude_xlabel_ticks.lower()=="top"))
 		except AssertionError:
-			print "Error at input 'global_amplitude_xlabel_ticks': must be 'bottom' or 'top'"
+			print("Error at input 'global_amplitude_xlabel_ticks': must be 'bottom' or 'top'")
 			return
 		global_amplitude_xlabel_ticks=global_amplitude_xlabel_ticks.lower()
 		try:
 			assert type(cmap) is str
 		except AssertionError:
-			print "Error at input 'cmap': must be of type 'str'"
+			print("Error at input 'cmap': must be of type 'str'")
 			return
 		try:
 			assert (type(nlevels) is int) and nlevels>0
 		except AssertionError:
-			print "Error at input 'nlevels': must be an integer >0"
+			print("Error at input 'nlevels': must be an integer >0")
 			return
 		try:
 			assert (type(plot_coi) is str) and ((plot_coi.lower()=="fill") or (plot_coi.lower()=="line"))
 		except AssertionError:
-			print "Error at input 'plot_coi': must be 'fill' or 'line'"
+			print("Error at input 'plot_coi': must be 'fill' or 'line'")
 			return
 		plot_coi=plot_coi.lower()
 		try:
 			assert (type(linewidth_coi) is int) or (type(linewidth_coi) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_coi': must be an integer or float"
+			print("Error at input 'linewidth_coi': must be an integer or float")
 			return
 		try:
 			assert (type(plot_perlim2) is str) and ((plot_perlim2.lower()=="fill") or (plot_perlim2.lower()=="line"))
 		except AssertionError:
-			print "Error at input 'plot_perlim2': must be 'fill' or 'line'"
+			print("Error at input 'plot_perlim2': must be 'fill' or 'line'")
 			return
 		plot_perlim2=plot_perlim2.lower()
 		try:
 			assert (type(linewidth_perlim2) is int) or (type(linewidth_perlim2) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_perlim2': must be an integer or float"
+			print("Error at input 'linewidth_perlim2': must be an integer or float")
 			return
 		try:
 			assert type(plot_ridges) is bool
 		except AssertionError:
-			print "Error at input 'plot_ridges': must be True or False"
+			print("Error at input 'plot_ridges': must be True or False")
 			return
 		try:
 			assert type(k_skeleton) is list
 		except AssertionError:
-			print "Error at input 'k_skeleton': must be of type 'list'"
+			print("Error at input 'k_skeleton': must be of type 'list'")
 			return
 		for k in range(len(k_skeleton)):
 			try:
 				assert type(k_skeleton[k]) is int
 			except AssertionError:
-				print "Error at input 'k_skeleton': must be a list containing integers"
+				print("Error at input 'k_skeleton': must be a list containing integers")
 				return
 		try:
 			assert type(plot_band_filtering) is bool
 		except AssertionError:
-			print "Error at input 'plot_band_filtering': must be True or False"
+			print("Error at input 'plot_band_filtering': must be True or False")
 			return
 		try:
 			assert (type(linewidth_gampl) is int) or (type(linewidth_gampl) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_gampl': must be an integer or float"
+			print("Error at input 'linewidth_gampl': must be an integer or float")
 			return
 		try:
 			assert type(reverse_xaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_xaxis': must be True or False"
+			print("Error at input 'reverse_xaxis': must be True or False")
 			return
 		try:
 			assert type(reverse_yaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_yaxis': must be True or False"
+			print("Error at input 'reverse_yaxis': must be True or False")
 			return
 		try:
 			assert ((type(alpha_SNEZ) is float) or (type(alpha_SNEZ) is int)) and (alpha_SNEZ>=0 and alpha_SNEZ<=1)
 		except AssertionError:
-			print "Error at input 'alpha_SNEZ': must of type float or int and must take a value in [0,1]"
+			print("Error at input 'alpha_SNEZ': must of type float or int and must take a value in [0,1]")
 			return
 		try:
 			assert (type(decimals) is int) and decimals>=0
 		except AssertionError:
-			print "Error at input 'decimals': must be an integer >=0"
+			print("Error at input 'decimals': must be an integer >=0")
 			return
 		try:
 			assert (type(linewidth_ridges) is int) or (type(linewidth_ridges) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_ridges': must be an integer or float"
+			print("Error at input 'linewidth_ridges': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		try:
 			assert self.computes_cwtamplitude is True
 		except AssertionError:
-			print "Error: plot_cwtamplitude cannot be applied"
+			print("Error: plot_cwtamplitude cannot be applied")
 			return
 		if with_global_amplitude is True:
 			try:
 				assert self.computes_global_scalogram is True
 			except AssertionError:
-				print "Error: Global scalogram was not computed"
-				print "=> drawing the figure without the global amplitude"
+				print("Error: Global scalogram was not computed")
+				print("=> drawing the figure without the global amplitude")
 				with_global_amplitude=False
 		if period_string is None:
 			myperiod=np.ceil(np.log2(self.period_ampl[0]))
@@ -4465,16 +4465,16 @@ class Wavepal:
 				plt.plot(self.skeleton[k][0],np.log2(self.skeleton[k][1]),'w',linewidth=linewidth_ridges)
 			for k in range(len(k_skeleton)):
 				if k>=nsk:
-					print "WARNING: Element "+str(k)+" of 'k_skeleton' is not a correct value"
+					print("WARNING: Element "+str(k)+" of 'k_skeleton' is not a correct value")
 				else:
 					plt.plot(self.skeleton[k_skeleton[k]][0],np.log2(self.skeleton[k_skeleton[k]][1]),'k',linewidth=linewidth_ridges)
 		elif (self.run_timefreq_ridges_filtering is not True) and (plot_ridges is True):
-			print "WARNING: function 'timefreq_ridges_filtering' was not run => unable to draw the ridges"
+			print("WARNING: function 'timefreq_ridges_filtering' was not run => unable to draw the ridges")
 		if (self.run_timefreq_band_filtering is True) and (plot_band_filtering is True):
 			for k in range(self.timefreq_band_filtered_signal_bounds.shape[0]):
 				plt.fill_between(self.theta,np.log2(self.timefreq_band_filtered_signal_bounds[k,0]),np.log2(self.timefreq_band_filtered_signal_bounds[k,1]),edgecolors=None,facecolor='black',alpha=0.5)
 		elif (self.run_timefreq_band_filtering is not True) and (plot_band_filtering is True):
-			print "WARNING: function 'timefreq_band_filtering' was not run => unable to draw the bands"
+			print("WARNING: function 'timefreq_band_filtering' was not run => unable to draw the bands")
 		if plot_coi=="fill":
 			plt.fill_betweenx(np.log2(self.period_ampl),self.t[0],self.coi1,edgecolors=None,facecolor='black',alpha=0.5)
 			plt.fill_betweenx(np.log2(self.period_ampl),self.coi2,self.t[-1],edgecolors=None,facecolor='black',alpha=0.5)
@@ -4610,189 +4610,189 @@ class Wavepal:
 		try:
 			assert type(with_global_amplitude) is bool
 		except AssertionError:
-			print "Error at input 'with_global_amplitude': must be True or False"
+			print("Error at input 'with_global_amplitude': must be True or False")
 			return
 		try:
 			assert (time_string is None) or (type(time_string) is list)
 		except AssertionError:
-			print "Error at input 'time_string': must be None or of type 'list'"
+			print("Error at input 'time_string': must be None or of type 'list'")
 			return
 		if type(time_string) is list:
 			for k in range(len(time_string)):
 				try:
 					assert type(time_string[k]) is float
 				except AssertionError:
-					print "Error at input 'time_string': must be a list containing floats"
+					print("Error at input 'time_string': must be a list containing floats")
 					return
 		try:
 			assert (period_string is None) or (type(period_string) is list)
 		except AssertionError:
-			print "Error at input 'period_string': must be None or of type 'list'"
+			print("Error at input 'period_string': must be None or of type 'list'")
 			return
 		if type(period_string) is list:
 			for k in range(len(period_string)):
 				try:
 					assert type(period_string[k]) is float
 				except AssertionError:
-					print "Error at input 'period_string': must be a list containing floats"
+					print("Error at input 'period_string': must be a list containing floats")
 					return
 		try:
 			assert (power_string is None) or (type(power_string) is list)
 		except AssertionError:
-			print "Error at input 'power_string': must be None or of type 'list'"
+			print("Error at input 'power_string': must be None or of type 'list'")
 			return
 		if type(power_string) is list:
 			for k in range(len(power_string)):
 				try:
 					assert type(power_string[k]) is float
 				except AssertionError:
-					print "Error at input 'power_string': must be a list containing floats"
+					print("Error at input 'power_string': must be a list containing floats")
 					return
 		try:
 			assert type(left_padding) is float
 		except AssertionError:
-			print "Error at input 'left_padding': must be of type 'float'"
+			print("Error at input 'left_padding': must be of type 'float'")
 			return
 		try:
 			assert type(right_padding) is float
 		except AssertionError:
-			print "Error at input 'right_padding': must be of type 'float'"
+			print("Error at input 'right_padding': must be of type 'float'")
 			return
 		try:
 			assert type(middle_padding) is float
 		except AssertionError:
-			print "Error at input 'middle_padding': must be of type 'float'"
+			print("Error at input 'middle_padding': must be of type 'float'")
 			return
 		try:
 			assert (type(global_amplitude_xlabel) is str) and ((global_amplitude_xlabel.lower()=="bottom") or (global_amplitude_xlabel.lower()=="top"))
 		except AssertionError:
-			print "Error at input 'global_amplitude_xlabel': must be 'bottom' or 'top'"
+			print("Error at input 'global_amplitude_xlabel': must be 'bottom' or 'top'")
 			return
 		global_amplitude_xlabel=global_amplitude_xlabel.lower()
 		try:
 			assert (type(global_amplitude_xlabel_ticks) is str) and ((global_amplitude_xlabel_ticks.lower()=="bottom") or (global_amplitude_xlabel_ticks.lower()=="top"))
 		except AssertionError:
-			print "Error at input 'global_amplitude_xlabel_ticks': must be 'bottom' or 'top'"
+			print("Error at input 'global_amplitude_xlabel_ticks': must be 'bottom' or 'top'")
 			return
 		global_amplitude_xlabel_ticks=global_amplitude_xlabel_ticks.lower()
 		try:
 			assert type(cmap) is str
 		except AssertionError:
-			print "Error at input 'cmap': must be of type 'str'"
+			print("Error at input 'cmap': must be of type 'str'")
 			return
 		try:
 			assert (type(nlevels) is int) and nlevels>0
 		except AssertionError:
-			print "Error at input 'nlevels': must be an integer >0"
+			print("Error at input 'nlevels': must be an integer >0")
 			return
 		try:
 			assert (type(plot_coi) is str) and ((plot_coi.lower()=="fill") or (plot_coi.lower()=="line"))
 		except AssertionError:
-			print "Error at input 'plot_coi': must be 'fill' or 'line'"
+			print("Error at input 'plot_coi': must be 'fill' or 'line'")
 			return
 		plot_coi=plot_coi.lower()
 		try:
 			assert (type(linewidth_coi) is int) or (type(linewidth_coi) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_coi': must be an integer or float"
+			print("Error at input 'linewidth_coi': must be an integer or float")
 			return
 		try:
 			assert (type(plot_perlim2) is str) and ((plot_perlim2.lower()=="fill") or (plot_perlim2.lower()=="line"))
 		except AssertionError:
-			print "Error at input 'plot_perlim2': must be 'fill' or 'line'"
+			print("Error at input 'plot_perlim2': must be 'fill' or 'line'")
 			return
 		plot_perlim2=plot_perlim2.lower()
 		try:
 			assert (type(linewidth_perlim2) is int) or (type(linewidth_perlim2) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_perlim2': must be an integer or float"
+			print("Error at input 'linewidth_perlim2': must be an integer or float")
 			return
 		try:
 			assert type(plot_ridges) is bool
 		except AssertionError:
-			print "Error at input 'plot_ridges': must be True or False"
+			print("Error at input 'plot_ridges': must be True or False")
 			return
 		try:
 			assert type(k_skeleton) is list
 		except AssertionError:
-			print "Error at input 'k_skeleton': must be of type 'list'"
+			print("Error at input 'k_skeleton': must be of type 'list'")
 			return
 		for k in range(len(k_skeleton)):
 			try:
 				assert type(k_skeleton[k]) is int
 			except AssertionError:
-				print "Error at input 'k_skeleton': must be a list containing integers"
+				print("Error at input 'k_skeleton': must be a list containing integers")
 				return
 		try:
 			assert type(plot_band_filtering) is bool
 		except AssertionError:
-			print "Error at input 'plot_band_filtering': must be True or False"
+			print("Error at input 'plot_band_filtering': must be True or False")
 			return
 		try:
 			assert (type(linewidth_gampl) is int) or (type(linewidth_gampl) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_gampl': must be an integer or float"
+			print("Error at input 'linewidth_gampl': must be an integer or float")
 			return
 		try:
 			assert type(reverse_xaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_xaxis': must be True or False"
+			print("Error at input 'reverse_xaxis': must be True or False")
 			return
 		try:
 			assert type(reverse_yaxis) is bool
 		except AssertionError:
-			print "Error at input 'reverse_yaxis': must be True or False"
+			print("Error at input 'reverse_yaxis': must be True or False")
 			return
 		try:
 			assert ((type(alpha_SNEZ) is float) or (type(alpha_SNEZ) is int)) and (alpha_SNEZ>=0 and alpha_SNEZ<=1)
 		except AssertionError:
-			print "Error at input 'alpha_SNEZ': must of type float or int and must take a value in [0,1]"
+			print("Error at input 'alpha_SNEZ': must of type float or int and must take a value in [0,1]")
 			return
 		try:
 			assert (type(decimals) is int) and decimals>=0
 		except AssertionError:
-			print "Error at input 'decimals': must be an integer >=0"
+			print("Error at input 'decimals': must be an integer >=0")
 			return
 		try:
 			assert (type(linewidth_ridges) is int) or (type(linewidth_ridges) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_ridges': must be an integer or float"
+			print("Error at input 'linewidth_ridges': must be an integer or float")
 			return
 		try:
 			assert (minampl_sq is None) or (type(minampl_sq) is float and minampl_sq>=0.)
 		except AssertionError:
-			print "Error at input 'minampl_sq': must be a float >=0"
+			print("Error at input 'minampl_sq': must be a float >=0")
 			return
 		try:
 			assert (maxampl_sq is None) or (type(maxampl_sq) is float and maxampl_sq>=0.)
 		except AssertionError:
-			print "Error at input 'maxampl_sq': must be a float, >=0, and >= 'minampl_sq'"
+			print("Error at input 'maxampl_sq': must be a float, >=0, and >= 'minampl_sq'")
 			return
 		try:
 			assert (permin_ext is None) or (type(permin_ext) is float and permin_ext>=0.)
 		except AssertionError:
-			print "Error at input 'permin_ext': must be a float >=0"
+			print("Error at input 'permin_ext': must be a float >=0")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		try:
 			assert self.computes_cwtamplitude is True
 		except AssertionError:
-			print "Error: plot_cwtamplitude_squared cannot be applied"
+			print("Error: plot_cwtamplitude_squared cannot be applied")
 			return
 		if with_global_amplitude is True:
 			try:
 				assert self.computes_global_scalogram is True
 			except AssertionError:
-				print "Error: Global scalogram was not computed"
-				print "=> drawing the figure without the global amplitude"
+				print("Error: Global scalogram was not computed")
+				print("=> drawing the figure without the global amplitude")
 				with_global_amplitude=False
 		if (self.shannonnyquistexclusionzone is False) and (permin_ext is not None):
-			print "parameter 'permin_ext' changed to 'None', since 'shannonnyquistexclusionzone' is 'False'"
+			print("parameter 'permin_ext' changed to 'None', since 'shannonnyquistexclusionzone' is 'False'")
 			permin_ext=None
 		if period_string is None:
 			if (permin_ext is not None) and (permin_ext<self.period_ampl[0]):
@@ -4817,7 +4817,7 @@ class Wavepal:
 		try:
 			assert maxampl_sq>=minampl_sq
 		except AssertionError:
-			print "Error: variable 'maxampl_sq' must be greater than or equal to 'minampl_sq'"
+			print("Error: variable 'maxampl_sq' must be greater than or equal to 'minampl_sq'")
 			return
 		minminampl_sq=np.amin(np.amin(self.cwtamplitude**2))
 		maxmaxampl_sq=np.amax(np.amax(self.cwtamplitude**2))
@@ -4839,16 +4839,16 @@ class Wavepal:
 				plt.plot(self.skeleton[k][0],np.log2(self.skeleton[k][1]),'w',linewidth=linewidth_ridges)
 			for k in range(len(kskel)):
 				if k>=nsk:
-					print "WARNING: Element "+str(k)+" of 'k_skeleton' is not a correct value"
+					print("WARNING: Element "+str(k)+" of 'k_skeleton' is not a correct value")
 				else:
 					plt.plot(self.skeleton[k_skeleton[k]][0],np.log2(self.skeleton[k_skeleton[k]][1]),'k',linewidth=linewidth_ridges)
 		elif (self.run_timefreq_ridges_filtering is not True) and (plot_ridges is True):
-			print "WARNING: function 'timefreq_ridges_filtering' was not run => unable to draw the ridges"
+			print("WARNING: function 'timefreq_ridges_filtering' was not run => unable to draw the ridges")
 		if (self.run_timefreq_band_filtering is True) and (plot_band_filtering is True):
 			for k in range(self.timefreq_band_filtered_signal_bounds.shape[0]):
 				plt.fill_between(self.theta,np.log2(self.timefreq_band_filtered_signal_bounds[k,0]),np.log2(self.timefreq_band_filtered_signal_bounds[k,1]),edgecolors=None,facecolor='black',alpha=0.5)
 		elif (self.run_timefreq_band_filtering is not True) and (plot_band_filtering is True):
-			print "WARNING: function 'timefreq_band_filtering' was not run => unable to draw the bands"
+			print("WARNING: function 'timefreq_band_filtering' was not run => unable to draw the bands")
 		if plot_coi=="fill":
 			plt.fill_betweenx(np.log2(self.period_ampl),self.t[0],self.coi1,edgecolors=None,facecolor='black',alpha=0.5)
 			plt.fill_betweenx(np.log2(self.period_ampl),self.coi2,self.t[-1],edgecolors=None,facecolor='black',alpha=0.5)
@@ -4964,34 +4964,34 @@ class Wavepal:
 		try:
 			assert (type(xaxis) is str) and ((xaxis.lower()=="frequency") or (xaxis.lower()=="period"))
 		except AssertionError:
-			print "Error at input 'xaxis': Must be 'frequency' or 'period'"
+			print("Error at input 'xaxis': Must be 'frequency' or 'period'")
 			return
 		xaxis=xaxis.lower()
 		try:
 			assert type(loglog) is bool
 		except AssertionError:
-			print "Error at input 'loglog': Must be True or False"
+			print("Error at input 'loglog': Must be True or False")
 			return
 		try:
 			assert (type(linewidth_gscal) is int) or (type(linewidth_gscal) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_gscal': must be an integer or float"
+			print("Error at input 'linewidth_gscal': must be an integer or float")
 			return
 		try:
 			assert (type(linewidth_gcl) is int) or (type(linewidth_gcl) is float)
 		except AssertionError:
-			print "Error at input 'linewidth_gcl': must be an integer or float"
+			print("Error at input 'linewidth_gcl': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		try:
 			assert self.computes_global_scalogram is True
 		except AssertionError:
-			print "Error: plot_global_scalogram cannot be applied"
+			print("Error: plot_global_scalogram cannot be applied")
 			return
 		if xaxis=="period":
 			mypow=1
@@ -5059,24 +5059,24 @@ class Wavepal:
 		try:
 			assert (type(display) is str) and ((display.lower()=="frequency") or (display.lower()=="period"))
 		except AssertionError:
-			print "Error at input 'display': Must be 'frequency' or 'period'"
+			print("Error at input 'display': Must be 'frequency' or 'period'")
 			return
 		display=display.lower()
 		try:
 			assert (type(linewidth) is int) or (type(linewidth) is float)
 		except AssertionError:
-			print "Error at input 'linewidth': must be an integer or float"
+			print("Error at input 'linewidth': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		try:
 			assert 'a' in self.signif_level_type
 		except AssertionError:
-			print "Error: plot_check_convergence_percentiles_global_scalogram cannot be applied"
+			print("Error: plot_check_convergence_percentiles_global_scalogram cannot be applied")
 			return
 		myper=self.global_scalogram_cl_anal_check_convergence[0]
 		mypercentile=self.global_scalogram_cl_anal_check_convergence[1]
@@ -5099,7 +5099,7 @@ class Wavepal:
 			box = aa.get_position()
 			aa.set_position([box.x0, box.y0, box.width * 0.8, box.height])
 			for k in range(self.percentile_cwt.size):
-				aa.plot(range(2,self.n_moments_cwt+1),mypercentile[l,:,k],label=str(self.percentile_cwt[k])+"%",linewidth=linewidth)
+				aa.plot(list(range(2,self.n_moments_cwt+1)),mypercentile[l,:,k],label=str(self.percentile_cwt[k])+"%",linewidth=linewidth)
 			if l==1:
 				aa.legend(fontsize=fontsize_legend,loc='upper left', bbox_to_anchor=(1, 1.3), fancybox=True)  # ncol=min(3,n_moments%3+n_moments/3)
 			if display=="period":
@@ -5145,29 +5145,29 @@ class Wavepal:
 		try:
 			assert (type(xaxis) is str) and ((xaxis.lower()=="frequency") or (xaxis.lower()=="period"))
 		except AssertionError:
-			print "Error at input 'xaxis': Must be 'frequency' or 'period'"
+			print("Error at input 'xaxis': Must be 'frequency' or 'period'")
 			return
 		xaxis=xaxis.lower()
 		try:
 			assert type(loglog) is bool
 		except AssertionError:
-			print "Error at input 'loglog': Must be True or False"
+			print("Error at input 'loglog': Must be True or False")
 			return
 		try:
 			assert (type(linewidth) is int) or (type(linewidth) is float)
 		except AssertionError:
-			print "Error at input 'linewidth': must be an integer or float"
+			print("Error at input 'linewidth': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		try:
 			assert ('a' in self.signif_level_type) or ('n' in self.signif_level_type)
 		except AssertionError:
-			print "Error: plot_pseudo_global_spectrum cannot be applied"
+			print("Error: plot_pseudo_global_spectrum cannot be applied")
 			return
 		if xaxis=="period":
 			mypow=1
@@ -5220,29 +5220,29 @@ class Wavepal:
 		try:
 			assert (type(xaxis) is str) and ((xaxis.lower()=="frequency") or (xaxis.lower()=="period"))
 		except AssertionError:
-			print "Error at input 'xaxis': Must be 'frequency' or 'period'"
+			print("Error at input 'xaxis': Must be 'frequency' or 'period'")
 			return
 		xaxis=xaxis.lower()
 		try:
 			assert type(loglog) is bool
 		except AssertionError:
-			print "Error at input 'loglog': Must be True or False"
+			print("Error at input 'loglog': Must be True or False")
 			return
 		try:
 			assert (type(linewidth) is int) or (type(linewidth) is float)
 		except AssertionError:
-			print "Error at input 'linewidth': must be an integer or float"
+			print("Error at input 'linewidth': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		try:
 			assert ('a' in self.signif_level_type) and self.weighted_CWT is False
 		except AssertionError:
-			print "Error: plot_global_cwt_variance_anal cannot be applied"
+			print("Error: plot_global_cwt_variance_anal cannot be applied")
 			return
 		if xaxis=="period":
 			mypow=1
@@ -5288,34 +5288,34 @@ class Wavepal:
 		try:
 			assert (type(xaxis) is str) and ((xaxis.lower()=="frequency") or (xaxis.lower()=="period"))
 		except AssertionError:
-			print "Error at input 'xaxis': Must be 'frequency' or 'period'"
+			print("Error at input 'xaxis': Must be 'frequency' or 'period'")
 			return
 		xaxis=xaxis.lower()
 		try:
 			assert type(loglog) is bool
 		except AssertionError:
-			print "Error at input 'loglog': Must be True or False"
+			print("Error at input 'loglog': Must be True or False")
 			return
 		try:
 			assert (type(linewidth) is int) or (type(linewidth) is float)
 		except AssertionError:
-			print "Error at input 'linewidth': must be an integer or float"
+			print("Error at input 'linewidth': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		try:
 			assert self.computes_cwtamplitude is True
 		except AssertionError:
-			print "Error: plot_global_amplitude cannot be applied"
+			print("Error: plot_global_amplitude cannot be applied")
 			return
 		try:
 			assert self.computes_global_scalogram is True
 		except AssertionError:
-			print "Error: plot_global_amplitude cannot be applied"
+			print("Error: plot_global_amplitude cannot be applied")
 			return
 		if xaxis=="period":
 			mypow=1
@@ -5362,34 +5362,34 @@ class Wavepal:
 		try:
 			assert (type(xaxis) is str) and ((xaxis.lower()=="frequency") or (xaxis.lower()=="period"))
 		except AssertionError:
-			print "Error at input 'xaxis': Must be 'frequency' or 'period'"
+			print("Error at input 'xaxis': Must be 'frequency' or 'period'")
 			return
 		xaxis=xaxis.lower()
 		try:
 			assert type(loglog) is bool
 		except AssertionError:
-			print "Error at input 'loglog': Must be True or False"
+			print("Error at input 'loglog': Must be True or False")
 			return
 		try:
 			assert (type(linewidth) is int) or (type(linewidth) is float)
 		except AssertionError:
-			print "Error at input 'linewidth': must be an integer or float"
+			print("Error at input 'linewidth': must be an integer or float")
 			return
 		# check that some functions were previously run
 		try:
 			assert self.run_timefreq_analysis is True
 		except AssertionError:
-			print "Error: Must have run function 'timefreq_analysis'"
+			print("Error: Must have run function 'timefreq_analysis'")
 			return
 		try:
 			assert self.computes_cwtamplitude is True and self.weighted_CWT is True
 		except AssertionError:
-			print "Error: plot_global_amplitude_vs_global_scalogram cannot be applied"
+			print("Error: plot_global_amplitude_vs_global_scalogram cannot be applied")
 			return
 		try:
 			assert self.computes_global_scalogram is True
 		except AssertionError:
-			print "Error: plot_global_amplitude_vs_global_scalogram cannot be applied"
+			print("Error: plot_global_amplitude_vs_global_scalogram cannot be applied")
 			return
 		if xaxis=="period":
 			mypow=1

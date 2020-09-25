@@ -59,21 +59,21 @@ def ridgewalk(W,fs,N=1.5,chi=0.,alpha=1./4.):
 
    See ISRIDGEPOINT for details."""
 
-	from colbreaks import colbreaks
+	from .colbreaks import colbreaks
 	fs_sorted_descending=np.sort(fs)[::-1]
 	try:
 	   assert np.prod(fs==fs_sorted_descending)==1.
 	except AssertionError:
-		print "Error: The frequencies FS should be sorted from highest to lowest."
+		print("Error: The frequencies FS should be sorted from highest to lowest.")
 		return
 	mybool,rq,om=isridgepoint(W,fs,chi)
-	print "RIDGEWALK chaining ridges."
+	print("RIDGEWALK chaining ridges.")
 	id,ir,jr,wr,fr=ridgechains(fs,N,mybool,W,om,alpha)
 	if id.size>0:
 		_,ir,jr,wr,fr=colbreaks(id,ir,jr,wr,fr)
 		# I skip "ridgeinterp", which should be called here
 
-	print "RIDGEWALK finished."
+	print("RIDGEWALK finished.")
 
 	return ir,jr,wr,fr
 
@@ -104,9 +104,9 @@ def isridgepoint(w,fs,chi):
    (C) 2006--2009 J.M. Lilly
    Modified by G. Lenoir, October 2016"""
 
-	from ridgequantity import ridgequantity
+	from .ridgequantity import ridgequantity
 	
-	print "RIDGEWALK looking for ridge points..."
+	print("RIDGEWALK looking for ridge points...")
 
 	rq,om=ridgequantity(w,fs)
 	rqm=np.zeros(rq.shape)
@@ -145,7 +145,7 @@ def isridgepoint(w,fs,chi):
 	mybool[:,0]=False
 	mybool[:,-1]=False
 
-	print "RIDGEWALK found "+str(np.where(mybool)[0].size)+" ridge points."
+	print("RIDGEWALK found "+str(np.where(mybool)[0].size)+" ridge points.")
 
 	return mybool, rq, om
 
@@ -175,9 +175,9 @@ def ridgechains(fs,N,mybool,x,f,alpha):
    Modified by G. Lenoir, October 2016"""
  
 	import copy
-	from frac import frac
-	from ridgelen import ridgelen
-	from vdiff import vdiff
+	from .frac import frac
+	from .ridgelen import ridgelen
+	from .vdiff import vdiff
  
 	if np.where(mybool)[0].size==0:
 		id=np.zeros(0)
@@ -277,14 +277,14 @@ def ridgechains(fs,N,mybool,x,f,alpha):
 			try:
 				jjmin[k,j]=np.nanargmin(df[k,:,j])
 			except ValueError:
-				print "WARNING: ValueError with numpy.nanargmin: All-NaN slice encountered"
+				print("WARNING: ValueError with numpy.nanargmin: All-NaN slice encountered")
 				jjmin[k,j]=0
 	iimin=np.zeros((df.shape[0],df.shape[1]),dtype=int)
-	myvec=range(df.shape[0])
+	myvec=list(range(df.shape[0]))
 	for k in range(df.shape[1]):
 		iimin[:,k]=copy.copy(myvec)
 	kkmin=np.zeros((df.shape[0],df.shape[1]),dtype=int)
-	myvec=range(df.shape[1])
+	myvec=list(range(df.shape[1]))
 	for k in range(df.shape[0]):
 		kkmin[k,:]=copy.copy(myvec)
 	df=np.nan*df
@@ -298,7 +298,7 @@ def ridgechains(fs,N,mybool,x,f,alpha):
 			try:
 				jjmin[k,j]=np.nanargmin(df[k,j,:])
 			except ValueError:
-				print "WARNING: ValueError with numpy.nanargmin: All-NaN slice encountered"
+				print("WARNING: ValueError with numpy.nanargmin: All-NaN slice encountered")
 				jjmin[k,j]=0
 	index=np.where(np.logical_not(np.isnan(np.transpose(mindf))))[::-1]
 
@@ -339,6 +339,6 @@ def ridgechains(fs,N,mybool,x,f,alpha):
 	xr=copy.copy(xr[mysorter])
 	fr=copy.copy(fr[mysorter])
 					
-	print "RIDGEWALK pruning to "+str(id.size)+" ridge points."
+	print("RIDGEWALK pruning to "+str(id.size)+" ridge points.")
 
 	return id,ii,jj,xr,fr

@@ -1,6 +1,6 @@
 import numpy as np
 import numpy.linalg as la
-from tapering_window import tapering_window
+from .tapering_window import tapering_window
 
 def LS_WOSA(time,myfreq,freq_ind,myprojvec,D,tau,Q,Q_true,myind_time,myind_freq,mywindow,pol_degree,weight_WOSA):
 

@@ -1,8 +1,8 @@
 import numpy as np
-from dt_normal import dt_normal
-from dt_central import dt_central
+from .dt_normal import dt_normal
+from .dt_central import dt_central
 from tqdm import trange
-from tapering_window import tapering_window
+from .tapering_window import tapering_window
 import copy
 
 def freq_analysis_prelims(time,freq,D,betafact,mywindow,coverage,freq_min_bound,freq_max_bound,pol_degree,WOSA_segments,weighted_WOSA):
@@ -45,9 +45,9 @@ def freq_analysis_prelims(time,freq,D,betafact,mywindow,coverage,freq_min_bound,
 	dt_centr=dt_central(time)  	# Central time step
 	Q=int(np.floor(np.absolute(time[-1]-time[0]-D)/(1.0-betafact)/D))+1
 	if (float(N)/float(Q))<10.:
-		print "WARNING: Less than 10 data points per WOSA segment (in average)"
+		print("WARNING: Less than 10 data points per WOSA segment (in average)")
 	D=(time[-1]-time[0])/(1.0+(1.0-betafact)*(Q-1))       # Estimate D from Q -> New value for D
-	print "Re-estimated D factor (WOSA): ", D
+	print("Re-estimated D factor (WOSA): ", D)
 	tau=np.zeros(Q)
 	for k in range(Q):
 		tau[k]=time[0]+(1.0-betafact)*D*float(k)
@@ -59,7 +59,7 @@ def freq_analysis_prelims(time,freq,D,betafact,mywindow,coverage,freq_min_bound,
 	myind_Q=np.zeros(Q,dtype=int)
 	kin=0
 	ll=-1
-	print "Preliminary steps for the WOSA periodogram:"
+	print("Preliminary steps for the WOSA periodogram:")
 	for l in trange(Q):
 		count=0
 		myindl_0=-1
@@ -184,6 +184,6 @@ def freq_analysis_prelims(time,freq,D,betafact,mywindow,coverage,freq_min_bound,
 			warning_not_continuous=""
 	else:
 		warning_not_continuous=""
-	print "Re-estimated frequency range: from ", freq[0]," to ", freq[-1], warning_not_continuous
+	print("Re-estimated frequency range: from ", freq[0]," to ", freq[-1], warning_not_continuous)
 
 	return freq,tau_considered,myind_time,myind_freq_full,myind_Q,D,Qvec,Qtot,weight_WOSA

@@ -19,10 +19,10 @@ def carma_matrix(t,p,q,alpha,beta,varwn):
 		(C) 2016 G. Lenoir"""
 
 	bvec=np.zeros((p,1))
-	bvec[range(q+1),0]=beta
+	bvec[list(range(q+1)),0]=beta
 	Umat=np.zeros((p,p),dtype='complex128')
 	r=np.roots(alpha)
-	print "roots of the autoregressive polynomial [must have a negative real part]: ", r
+	print("roots of the autoregressive polynomial [must have a negative real part]: ", r)
 	Vmat=np.zeros((p,p))
 	Vmatfact=np.zeros(p,dtype='complex128')
 	for k in range(p):

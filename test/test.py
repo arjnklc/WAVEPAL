@@ -43,4 +43,4 @@ x.carma_params(signif_level_type="")
 x.timefreq_analysis(w0=15.0,permin=10.,computes_amplitude=True,smoothing_coeff=0.)
 x.timefreq_ridges_filtering()
 x.timefreq_band_filtering([(37.,43.)])
-print "INSTALLATION COMPLETED SUCCESSFULLY"
+print("INSTALLATION COMPLETED SUCCESSFULLY")

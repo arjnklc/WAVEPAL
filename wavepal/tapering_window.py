@@ -55,6 +55,6 @@ def tapering_window(time,D,mywindow):
 		sig=D/6.0
 		tapering_window=np.exp(-(time-D/2.0)**2/2.0/sig**2)
 	else:
-		print "Error: The window number you entered is not valid. Check input variable 'mywindow'."
+		print("Error: The window number you entered is not valid. Check input variable 'mywindow'.")
 		return
 	return tapering_window

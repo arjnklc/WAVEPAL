@@ -1,1 +1,1 @@
-from ridgewalk import ridgewalk
+from .ridgewalk import ridgewalk

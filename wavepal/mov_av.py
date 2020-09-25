@@ -27,30 +27,30 @@ def mov_av(t,x,l,type_av="t"):
 	try:
 		assert np.issubsctype(t,float)
 	except:
-		print "Error at input 't': must be a numpy array of 'float' type"
+		print("Error at input 't': must be a numpy array of 'float' type")
 		return
 	try:
 		assert np.issubsctype(x,float)
 	except:
-		print "Error at input 'x': must be a numpy array of 'float' type"
+		print("Error at input 'x': must be a numpy array of 'float' type")
 		return
 	try:
 		assert (type(type_av) is str) and ((type_av.lower()=="n") or (type_av.lower()=="t"))
 	except AssertionError:
-		print "Error at input 'type_av': must be 'n' or 't'"
+		print("Error at input 'type_av': must be 'n' or 't'")
 		return
 	type_av=type_av.lower()
 	if type_av=="n":
 		try:
 			assert (type(l) is int) and l>0
 		except AssertionError:
-			print "Error at input 'l': must be of 'int' type and >0"
+			print("Error at input 'l': must be of 'int' type and >0")
 			return
 	elif type_av=="t":
 		try:
 			assert (type(l) is float) and l>0.
 		except AssertionError:
-			print "Error at input 'l': must be of 'float' type and >0."
+			print("Error at input 'l': must be of 'float' type and >0.")
 			return
 	# Main code
 	n=x.size

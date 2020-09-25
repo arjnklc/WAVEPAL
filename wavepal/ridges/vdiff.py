@@ -23,7 +23,7 @@ def vdiff(x,dim):
 	if x.ndim==1:
 		if dim==1:
 			if x.size<=1:
-				print "Error in vdiff.py: length too small to perform numerical derivatives"
+				print("Error in vdiff.py: length too small to perform numerical derivatives")
 				return
 			else:
 				y[0]=x[1]-x[0]
@@ -31,12 +31,12 @@ def vdiff(x,dim):
 					y[k]=(x[k+1]-x[k-1])/2.
 				y[-1]=x[-1]-x[-2]
 		else:
-			print "Error in vdiff.py"
+			print("Error in vdiff.py")
 			return
 	elif x.ndim==2:
 		if dim==1:
 			if x.shape[0]<=1:
-				print "Error in vdiff.py: length too small to perform numerical derivatives"
+				print("Error in vdiff.py: length too small to perform numerical derivatives")
 				return
 			else:
 				y[0,:]=x[1,:]-x[0,:]
@@ -45,7 +45,7 @@ def vdiff(x,dim):
 				y[-1,:]=x[-1,:]-x[-2,:]
 		elif dim==2:
 			if x.shape[1]<=1:
-				print "Error in vdiff.py: length too small to perform numerical derivatives"
+				print("Error in vdiff.py: length too small to perform numerical derivatives")
 				return
 			else:
 				y[:,0]=x[:,1]-x[:,0]
@@ -53,9 +53,9 @@ def vdiff(x,dim):
 					y[:,k]=(x[:,k+1]-x[:,k-1])/2.
 				y[:,-1]=x[:,-1]-x[:,-2]
 		else:
-			print "Error in vdiff.py"
+			print("Error in vdiff.py")
 			return
 	else:
-		print "Error in vdiff.py"
+		print("Error in vdiff.py")
 		return
 	return y

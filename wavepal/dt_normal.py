@@ -1,5 +1,5 @@
 import numpy as np
-from tapering_window import tapering_window
+from .tapering_window import tapering_window
 
 # computes the average WEIGHTED time-step (the weight = the taper window)
 

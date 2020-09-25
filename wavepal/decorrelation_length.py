@@ -1,5 +1,5 @@
 import numpy as np
-from autocorrelation import autocorrelation
+from .autocorrelation import autocorrelation
 
 def decorrelation_length(x,min_autocorrelation):
 	

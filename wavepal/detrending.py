@@ -29,7 +29,7 @@ def detrending(t,data,pol_degree):
 		try:
 			assert np.allclose(np.dot(amat,beta),bmat)==True
 		except AssertionError:
-			print "Error when computing detrending: Matrix is singular"
+			print("Error when computing detrending: Matrix is singular")
 			sys.exit(1)
 		trend=np.dot(z,beta)
 

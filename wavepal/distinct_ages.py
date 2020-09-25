@@ -21,7 +21,7 @@ def distinct_ages(t,y):
 	yy[0]=y[0]
 	for k in range(1,n):
 		if t[k]==t[k-1]:
-			print "same time/age at ", t[k]
+			print("same time/age at ", t[k])
 		else:
 			tt=np.append(tt,t[k])
 			yy=np.append(yy,y[k])

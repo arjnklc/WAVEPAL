@@ -71,7 +71,7 @@ def CWT_and_Ampl(time,data,theta,scale_ind,myscale,myprojvec,Vmat,pol_degree,my_
 			try:
 				assert np.allclose(np.dot(amat,mysol),bmat)==True
 			except AssertionError:
-				print "WARNING: Error when computing signal Amplitude: Matrix is singular"
+				print("WARNING: Error when computing signal Amplitude: Matrix is singular")
 			finally:   # this is executed even if there is an AssertionError
 				Ampl[:,count]=mysol[-2:]
 

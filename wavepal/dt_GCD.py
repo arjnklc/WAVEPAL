@@ -18,10 +18,10 @@ def dt_GCD(t):
 	try:
 		assert np.issubsctype(t,int)
 	except:
-		print "Error at input 't': must be a numpy array of 'int' type"
+		print("Error at input 't': must be a numpy array of 'int' type")
 		return
 	# Main code
-	dt=np.zeros(t.size-1,dtype=long)
+	dt=np.zeros(t.size-1,dtype=int)
 	for k in range(dt.size):
 		dt[k]=t[k+1]-t[k]
 	dt_GCD=dt[0]

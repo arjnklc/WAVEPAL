@@ -40,7 +40,7 @@ def ridgelenloop(id,ir,jr,fr):
 
 def ridgelen1(id,ir,jr,fr):
 
-	from blocknum import blocknum
+	from .blocknum import blocknum
 	import copy
 
 	myfr=copy.copy(fr)

@@ -2,7 +2,7 @@ import numpy as np
 from scipy.optimize import least_squares
 from scipy.special import gamma
 from scipy.stats import gengamma
-from percentile_3_moments_first_guess import percentile_3_moments_first_guess
+from .percentile_3_moments_first_guess import percentile_3_moments_first_guess
 from tqdm import trange
 import sys
 
@@ -46,7 +46,7 @@ def percentile_3_moments(trA,trAsq,trAcub,proba,MaxFunEvals):
 	myfun1=lambda x: x[1]*gamma(x[0]+1.0/x[2])/gamma(x[0])
 	myfun2=lambda x: x[1]**2*gamma(x[0]+2.0/x[2])/gamma(x[0])
 	myfun3=lambda x: x[1]**3*gamma(x[0]+3.0/x[2])/gamma(x[0])
-	print "Root-searching for the coefficients of the generalized gamma distribution:"
+	print("Root-searching for the coefficients of the generalized gamma distribution:")
 	for k in trange(m):
 		if (trA[k]==0. and trAsq[k]==0. and trAcub[k]==0.):
 			continue
@@ -62,7 +62,7 @@ def percentile_3_moments(trA,trAsq,trAcub,proba,MaxFunEvals):
 			try:
 				assert answ.status>0
 			except AssertionError:
-				print "Error in percentile_3_moments.py with function least_squares"
+				print("Error in percentile_3_moments.py with function least_squares")
 				sys.exit(1)
 			alphak=answ.x[0]
 			betak=answ.x[1]

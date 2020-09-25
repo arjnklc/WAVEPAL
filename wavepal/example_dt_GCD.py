@@ -1,8 +1,8 @@
 # Example for the function dt_GCD.
 
 import numpy as np
-from distinct_ages import distinct_ages
-from dt_GCD import dt_GCD
+from .distinct_ages import distinct_ages
+from .dt_GCD import dt_GCD
 import sys
 from os import path
 
@@ -13,8 +13,8 @@ mydata=data[:,1]
 t, mydata=distinct_ages(t,mydata)
 # There is, for each time in the file, maximum 3 numbers after the coma, so that I multiply by alpha=1000.
 alpha=1000.0   # note that 10000., 100000., etc. works as well
-tt=np.zeros(t.size,dtype=long)
+tt=np.zeros(t.size,dtype=int)
 for k in range(t.size):
-	tt[k]=long(np.round(t[k]*alpha))
+	tt[k]=int(np.round(t[k]*alpha))
 dt_GCD_int=dt_GCD(tt)
-print "dt_GCD is ", float(dt_GCD_int)/alpha
+print("dt_GCD is ", float(dt_GCD_int)/alpha)

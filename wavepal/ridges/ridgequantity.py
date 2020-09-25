@@ -24,8 +24,8 @@ def ridgequantity(w,fs):
    (C) 2009 J.M. Lilly
    Rewritten in python 2.X by G. Lenoir, October 2016"""
 	
-	from vdiff import vdiff
-	from frac import frac
+	from .vdiff import vdiff
+	from .frac import frac
  
 	om=np.zeros(w.shape)
 	for k in range(w.shape[0]):

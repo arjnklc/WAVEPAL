@@ -3,8 +3,8 @@ import numpy.linalg as la
 from scipy.special import gamma
 from scipy.special import gammainc
 from scipy.optimize import brentq
-from percentile_2_moments import percentile_2_moments
-from percentile_3_moments import percentile_3_moments
+from .percentile_2_moments import percentile_2_moments
+from .percentile_3_moments import percentile_3_moments
 #from tqdm import trange
 import sys
 
@@ -33,7 +33,7 @@ def percentile_n_moments(traces,proba,ind_full,algo,MaxFunEvals):
 	nproba=proba.size
 	p=len(ind_full)
 	percentile_full=np.zeros((p,n_moments-1,nproba))
-	myindex=range(n_moments+1)
+	myindex=list(range(n_moments+1))
 	myindex_float=np.arange(float(n_moments+1))
 	#print "Computes the analytical approximate confidence levels for each frequency:"
 	if n_moments==2:
@@ -95,7 +95,7 @@ def percentile_n_moments(traces,proba,ind_full,algo,MaxFunEvals):
 				try:
 					assert np.allclose(np.dot(numat,ksi),myvec)==True
 				except AssertionError:
-					print "Error when computing the n-moments approx for the linear combination of chi-squares: Matrix is singular"
+					print("Error when computing the n-moments approx for the linear combination of chi-squares: Matrix is singular")
 					sys.exit(1)
 				myfact=ksi[:]*betad[h]**myindex*gamma(myindex_float[:]/deltad[h]+alphad[h])
 				cumdist=lambda c0var: np.sum(myfact[:]*gammainc(myindex_float[:]/deltad[h]+alphad[h],c0var**deltad[h]/betad[h]**deltad[h]))
@@ -121,9 +121,9 @@ def percentile_n_moments(traces,proba,ind_full,algo,MaxFunEvals):
 						try:
 							assert np.allclose(np.dot(numatk,ksi),myvec)==True
 						except AssertionError:
-							print "Error when computing the n-moments approx for the linear combination of chi-squares: Matrix is singular"
+							print("Error when computing the n-moments approx for the linear combination of chi-squares: Matrix is singular")
 							sys.exit(1)
-						myindexk=range(k+1)
+						myindexk=list(range(k+1))
 						myindexk_float=np.arange(float(k+1))
 						myfact=ksi[:(k+1)]*betad[h]**myindexk*gamma(myindexk_float/deltad[h]+alphad[h])
 						cumdist=lambda c0var: np.sum(myfact[:]*gammainc(myindexk_float[:]/deltad[h]+alphad[h],c0var**deltad[h]/betad[h]**deltad[h]))
@@ -155,7 +155,7 @@ def percentile_n_moments(traces,proba,ind_full,algo,MaxFunEvals):
 				try:
 					assert np.allclose(np.dot(numat,ksi),myvec)==True
 				except AssertionError:
-					print "Error when computing the n-moments approx for the linear combination of chi-squares: Matrix is singular"
+					print("Error when computing the n-moments approx for the linear combination of chi-squares: Matrix is singular")
 					sys.exit(1)
 				myfact=ksi[:]*betad[h]**myindex*gamma(myindex_float[:]+alphad[h])
 				cumdist=lambda c0var: np.sum(myfact[:]*gammainc(myindex_float[:]+alphad[h],c0var/betad[h]))
@@ -180,9 +180,9 @@ def percentile_n_moments(traces,proba,ind_full,algo,MaxFunEvals):
 						try:
 							assert np.allclose(np.dot(numatk,ksi),myvec)==True
 						except AssertionError:
-							print "Error when computing the n-moments approx for the linear combination of chi-squares: Matrix is singular"
+							print("Error when computing the n-moments approx for the linear combination of chi-squares: Matrix is singular")
 							sys.exit(1)
-						myindexk=range(k+1)
+						myindexk=list(range(k+1))
 						myindexk_float=np.arange(float(k+1))
 						myfact=ksi[:(k+1)]*betad[h]**myindexk*gamma(myindexk_float+alphad[h])
 						cumdist=lambda c0var: np.sum(myfact[:]*gammainc(myindexk_float[:]+alphad[h],c0var/betad[h]))

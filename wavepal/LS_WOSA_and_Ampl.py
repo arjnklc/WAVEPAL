@@ -1,6 +1,6 @@
 import numpy as np
 import numpy.linalg as la
-from tapering_window import tapering_window
+from .tapering_window import tapering_window
 
 def LS_WOSA_and_Ampl(time,data,myfreq,freq_ind,myprojvec,Vmat,D,tau,Q,Q_true,myind_time,myind_freq,mywindow,pol_degree,weight_WOSA):
 	
@@ -71,7 +71,7 @@ def LS_WOSA_and_Ampl(time,data,myfreq,freq_ind,myprojvec,Vmat,D,tau,Q,Q_true,myi
 			try:
 				assert np.allclose(np.dot(amat,mysol),bmat)==True
 			except AssertionError:
-				print "WARNING: Error when computing signal Amplitude: Matrix is singular"
+				print("WARNING: Error when computing signal Amplitude: Matrix is singular")
 			finally:   # this is executed even if there is an AssertionError
 				Ampl[:,ll]=mysol[-2:]
 
